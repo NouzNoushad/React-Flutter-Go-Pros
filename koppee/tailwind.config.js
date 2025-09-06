@@ -9,6 +9,10 @@ module.exports = {
             fontFamily: {
                 montserrat: ["Montserrat", "sans-serif"],
                 roboto: ["Roboto", "sans-serif"],
+            },
+            colors: {
+                primary: '#33211D',
+                secondary: '#DA9F5B',
             }
         },
     },

@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Header() {
     return (
-        <header className='fixed top-0 left-0 w-full z-5 lg:py-6 md:py-5 py-4 bg-primary'>
+        <header className='fixed top-0 left-0 w-full z-50 lg:py-6 md:py-5 py-4 bg-transparent'>
             <div className="container-width text-white font-montserrat flex items-center justify-between">
                 <a href="#home">
                     <h1 className='lg:text-4xl sm:text-3xl text-2xl  font-bold uppercase font-roboto'>koppee</h1>

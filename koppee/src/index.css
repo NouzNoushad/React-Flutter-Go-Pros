@@ -23,6 +23,22 @@ code {
         monospace;
 }
 
+.swiper-button-next,
+.swiper-button-prev {
+    color: white;
+    /* default color */
+    width: 2rem;
+    /* size */
+    height: 2rem;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    font-size: 1.5rem;
+    /* smaller than default (44px) */
+    font-weight: bold;
+}
+
 @layer components {
     .container-width {
         @apply max-w-[1300px] mx-auto px-6 xl:px-0;
