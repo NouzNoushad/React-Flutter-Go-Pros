@@ -5,6 +5,7 @@ import ScrollUpButton from './scrollButton'
 import About from './about'
 import Services from './services'
 import Offer from './offer'
+import Menu from './menu'
 
 export default function Main() {
     return (
@@ -15,6 +16,7 @@ export default function Main() {
             <About />
             <Services />
             <Offer />
+            <Menu />
         </>
     )
 }
