@@ -32,7 +32,7 @@ const slides = [
 export default function MainHome() {
     const [swiperInstance, setSwiperInstance] = useState<any>(null)
     return (
-        <div className="relative w-full">
+        <section id='home' className="relative w-full">
             <Swiper
                 modules={[Navigation, Autoplay]}
                 autoplay={{ delay: 4000 }}
@@ -68,7 +68,7 @@ export default function MainHome() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
             </button>
-            <div className="absolute left-0 bottom-0 z-10 w-full h-[15px] bg-[url('/public/images/overlay-bottom.png')]"></div>
-        </div>
+            <div className="absolute left-0 bottom-[-1px] z-10 w-full h-[15px] bg-[url('/public/images/overlay-bottom.png')]"></div>
+        </section>
     )
 }

@@ -6,7 +6,7 @@ export default function ScrollUpButton() {
     const handleScroll = () => {
         const windowHeight = window.scrollY
         setScrollBtn(
-            windowHeight > 500 ? 'hidden' : "fixed bottom-[20px] right-[20px] h-[40px] w-[40px] bg-secondary rounded-sm transition-all duration-200 z-40"
+            windowHeight > 500 ? "fixed bottom-[20px] right-[20px] h-[40px] w-[40px] bg-secondary rounded-sm transition-all duration-200 z-40" : 'hidden'
         )
     }
 

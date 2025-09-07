@@ -2,6 +2,7 @@ import React from 'react'
 import Header from './header'
 import MainHome from './home'
 import ScrollUpButton from './scrollButton'
+import About from './about'
 
 export default function Main() {
     return (
@@ -9,6 +10,7 @@ export default function Main() {
             <ScrollUpButton />
             <Header />
             <MainHome />
+            <About />
         </>
     )
 }
