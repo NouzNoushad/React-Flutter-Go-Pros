@@ -3,6 +3,7 @@ import Header from './header'
 import MainHome from './home'
 import ScrollUpButton from './scrollButton'
 import About from './about'
+import Services from './services'
 
 export default function Main() {
     return (
@@ -11,6 +12,7 @@ export default function Main() {
             <Header />
             <MainHome />
             <About />
+            <Services />
         </>
     )
 }

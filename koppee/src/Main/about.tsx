@@ -3,7 +3,7 @@ import React from 'react'
 export default function About() {
     return (
         <section id='about' className='bg-[#FFFBF2]'>
-            <div className="container-md py-[5rem]">
+            <div className="container-md pt-[5rem]">
                 <div className="main-container">
                     <h4 className='main-text'>About Us</h4>
                     <h1 className='main-subtext'>Serving Since 1950</h1>
