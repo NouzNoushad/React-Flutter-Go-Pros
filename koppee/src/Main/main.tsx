@@ -6,6 +6,7 @@ import About from './about'
 import Services from './services'
 import Offer from './offer'
 import Menu from './menu'
+import Reservation from './reservation'
 
 export default function Main() {
     return (
@@ -17,6 +18,7 @@ export default function Main() {
             <Services />
             <Offer />
             <Menu />
+            <Reservation />
         </>
     )
 }
