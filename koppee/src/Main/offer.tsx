@@ -2,7 +2,9 @@ import React from 'react'
 
 export default function Offer() {
     return (
-        <div className="bg-[url('/public/images/bg.jpg')] bg-cover bg-center h-[60vh] flex items-center justify-center relative after:absolute after:inset-0 after:bg-primary/80">
+        <div className="bg-[url('/public/images/bg.jpg')] bg-cover bg-center h-[70vh] flex items-center justify-center relative after:absolute after:inset-0 after:bg-primary/80">
+            <div className="absolute left-0 top-[-1px] z-20 w-full h-[15px] bg-[url('/public/images/overlay-top.png')]"></div>
+            <div className="absolute left-0 bottom-[-1px] z-20 w-full h-[15px] bg-[url('/public/images/overlay-bottom.png')]"></div>
             <div className="relative z-10 font-robot text-center space-y-3 text-white">
                 <h1 className='lg:text-7xl md:text-6xl sm:text-5xl text-4xl font-semibold text-secondary'>50% OFF</h1>
                 <h1 className='lg:text-4xl text-3xl font-semibold'>Sunday Special Offer</h1>

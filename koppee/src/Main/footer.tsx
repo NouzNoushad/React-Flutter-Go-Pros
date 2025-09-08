@@ -3,7 +3,8 @@ import { FacebookIcon, InstagramIcon, LinkedInIcon, XTwitterIcon } from '../Comp
 
 export default function Footer() {
     return (
-        <footer className='bg-[#FFFBF2]'>
+        <footer className='relative bg-[#FFFBF2]'>
+            <div className="absolute left-0 top-[-1px] z-10 w-full h-[15px] bg-[url('/public/images/overlay-top.png')]"></div>
             <div className="bg-[url('/public/images/bg.jpg')] bg-cover bg-center relative after:absolute after:inset-0 after:bg-primary/90 text-white">
                 <div className="container-lg py-[5rem] h-full relative z-10 grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-5">
                     <div className="space-y-4">

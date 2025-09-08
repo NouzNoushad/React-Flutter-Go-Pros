@@ -4,6 +4,8 @@ export default function Reservation() {
     return (
         <section className='bg-[#FFFBF2] pt-[3rem]'>
             <div className="max-w-[1100px] mx-auto bg-[url('/public/images/bg.jpg')] bg-cover bg-center relative after:absolute after:inset-0 after:bg-primary/90">
+                <div className="absolute left-0 top-[-1px] z-20 w-full h-[15px] bg-[url('/public/images/overlay-top.png')]"></div>
+                <div className="absolute left-0 bottom-[-1px] z-20 w-full h-[15px] bg-[url('/public/images/overlay-bottom.png')]"></div>
                 <div className="h-full relative z-10 grid md:grid-cols-2 grid-cols-1">
                     <div className="h-full text-white py-8 px-8 flex flex-col justify-center gap-5">
                         <h1 className='lg:text-7xl md:text-6xl sm:text-5xl text-4xl font-semibold text-secondary'>30% OFF</h1>
