@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 export default function Header() {
 
     const [stickyHeader, setStickyHeader] = useState("bg-transparent")
+    const [toggle, setToggle] = useState(false)
 
     const handleScroll = () => {
         const windowHeight = window.scrollY
@@ -32,11 +33,29 @@ export default function Header() {
                         <li><a href="#pages" className='nav-link'>Pages</a></li>
                         <li><a href="#contact" className='nav-link'>Contact</a></li>
                     </ul>
-                    <div className="">
+                </nav>
+                <nav className='lg:hidden'>
+                    {/* Mobile view */}
+                    <div className={`min-w-[300px] fixed top-0 bottom-0 overflow-y-auto lg:right-[-100%] transition-all duration-300 bg-primary px-4 py-4 ${toggle ? 'right-0' : 'right-[-100%]'}`}>
+                        <button onClick={() => setToggle(false)} className="w-full flex items-center justify-end">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                        <ul className='mt-10 space-y-3 w-full'>
+                            <li><a href="#home" className='nav-link-sm'>Home</a></li>
+                            <li><a href="#about" className='nav-link-sm'>About</a></li>
+                            <li><a href="#services" className='nav-link-sm'>Services</a></li>
+                            <li><a href="#menu" className='nav-link-sm'>Menu</a></li>
+                            <li><a href="#pages" className='nav-link-sm'>Pages</a></li>
+                            <li><a href="#contact" className='nav-link-sm'>Contact</a></li>
+                        </ul>
+                    </div>
+                    <button onClick={() => setToggle(!toggle)} className="">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6 inline-block lg:hidden">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                         </svg>
-                    </div>
+                    </button>
                 </nav>
             </div>
         </header>
