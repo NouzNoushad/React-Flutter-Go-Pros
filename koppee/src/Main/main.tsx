@@ -7,6 +7,7 @@ import Services from './services'
 import Offer from './offer'
 import Menu from './menu'
 import Reservation from './reservation'
+import Testimonial from './testimonial'
 
 export default function Main() {
     return (
@@ -19,6 +20,7 @@ export default function Main() {
             <Offer />
             <Menu />
             <Reservation />
+            <Testimonial />
         </>
     )
 }

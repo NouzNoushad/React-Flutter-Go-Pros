@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Reservation() {
     return (
-        <section className='bg-[#FFFBF2] pb-[4rem] pt-[3rem]'>
+        <section className='bg-[#FFFBF2] pt-[3rem]'>
             <div className="max-w-[1100px] mx-auto bg-[url('/public/images/bg.jpg')] bg-cover bg-center relative after:absolute after:inset-0 after:bg-primary/90">
                 <div className="h-full relative z-10 grid md:grid-cols-2 grid-cols-1">
                     <div className="h-full text-white py-8 px-8 flex flex-col justify-center gap-5">
