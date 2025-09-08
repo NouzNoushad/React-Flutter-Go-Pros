@@ -15,4 +15,6 @@ func Router(router *gin.Engine) {
 	r := controllers.NewAPIServer(store)
 
 	router.POST("/todo", r.HandleCreateTodo)
+	router.GET("/todo", r.HandleGetTodos)
+	router.GET("/todo/:id", r.HandleGetTodoByID)
 }
