@@ -20,3 +20,13 @@ func (s *PostgresStore) GetTodoByID(id string) (*models.Todo, error) {
 	err := s.db.Where("id = ?", id).First(&todo).Error
 	return &todo, err
 }
+
+// delete todo
+func (s *PostgresStore) DeleteTodo(id string) error {
+	return s.db.Where("id = ?", id).Delete(&models.Todo{}).Error
+}
+
+// update todo
+func (s *PostgresStore) UpdateTodo(todo *models.Todo, id string) error {
+	return s.db.Model(models.Todo{}).Where("id = ?", id).Updates(todo).Error
+}

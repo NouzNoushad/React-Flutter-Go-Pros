@@ -10,6 +10,8 @@ type Storage interface {
 	CreateTodo(todo *models.Todo) error
 	GetTodos() (*[]models.Todo, error)
 	GetTodoByID(id string) (*models.Todo, error)
+	DeleteTodo(id string) error
+	UpdateTodo(todo *models.Todo, id string) error
 }
 
 type PostgresStore struct {
