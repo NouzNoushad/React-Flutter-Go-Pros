@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@400;700&display=swap');
+
+:root {
+    --background-color: #050011;
+    --primary-color: #0C0028;
+    --secondary-color: #11053D;
+    --hint-color: #79787B;
+    --white-color: #fff;
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--background-color);
+}
+
+@layer base {
+    body {
+        @apply font-poppins
+    }
+}
+
+@layer components {
+    .container-lg {
+        @apply max-w-[1250px] mx-auto px-6 xl:px-0;
+    }
+
+    .container-md {
+        @apply max-w-[1100px] mx-auto px-6 xl:px-0;
+    }
+}
