@@ -1,5 +1,5 @@
 import React from 'react'
-import { todos } from '../Utils/lists'
+import { todos } from '../Lib/DemoLists'
 import Todo from './todo'
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 
@@ -19,9 +19,8 @@ export default function TodoItems() {
                             </div>
                         </div>
                         <div className="px-3 py-2 space-y-2">
-                            {
-                                todoGroup.todos.map((todo) => <Todo todo={todo} />)
-                            }
+                            <Todo todo={todoGroup.todo} />
+                            <h4 className='text-[10px] text-end'>{todoGroup.time}</h4>
                         </div>
                     </div>)
             }
