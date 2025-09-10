@@ -14,17 +14,15 @@ export default function TodoItems() {
                                 <h4 className='text-xs'>{todoGroup.date}</h4>
                                 <div className="flex flex-row items-center gap-2">
                                     <PencilIcon className='size-4 text-white' />
-                                    <TrashIcon className='size-4 text-white'/>
+                                    <TrashIcon className='size-4 text-white' />
                                 </div>
                             </div>
                         </div>
                         <div className="px-3 py-2 space-y-2">
                             {
-                                todoGroup.todos.map((todo) => <Todo todo={todo} />
-                                )
+                                todoGroup.todos.map((todo) => <Todo todo={todo} />)
                             }
                         </div>
-
                     </div>)
             }
         </div>

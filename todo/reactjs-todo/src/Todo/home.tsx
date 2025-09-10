@@ -1,5 +1,6 @@
 import React from 'react'
 import TodoItems from './todo_items';
+import CreateTodo from './create_todo';
 
 export default function Home() {
     return (
@@ -9,7 +10,9 @@ export default function Home() {
                     <div className="lg:col-span-8 col-span-12 w-full h-full">
                         <TodoItems />
                     </div>
-                    <div className="lg:col-span-4 bg-blue-300 w-full h-full"></div>
+                    <div className="lg:col-span-4 hidden lg:block text-white px-5 w-full h-full">
+                        <CreateTodo />
+                    </div>
                 </div>
             </div>
         </section>
