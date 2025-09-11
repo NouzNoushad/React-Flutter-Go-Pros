@@ -1,6 +1,6 @@
 import React from 'react'
-import TodoItems from './todo_items';
-import CreateTodo from './create_todo';
+import TodoItems from './todos/todo_items';
+import CreateTodo from './create_todo/create_todo';
 
 export default function Home() {
     return (

@@ -10,7 +10,7 @@ func (s *PostgresStore) CreateTodo(todo *models.Todo) error {
 // get todos
 func (s *PostgresStore) GetTodos() (*[]models.Todo, error) {
 	var todos []models.Todo
-	err := s.db.Find(&todos).Error
+	err := s.db.Order("created_at DESC").Find(&todos).Error
 	return &todos, err
 }
 
