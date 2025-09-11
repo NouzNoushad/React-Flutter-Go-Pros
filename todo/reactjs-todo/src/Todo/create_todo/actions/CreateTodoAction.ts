@@ -3,7 +3,7 @@ import { API_ENDPOINTS, getEndPoints } from "../../../Lib/APINetwork/EndPoints"
 import { postData } from "../../../Lib/APINetwork/BaseClients"
 import { APIResponse } from "../../../Lib/APINetwork/APIResponse"
 import { toast } from "sonner"
-import { useCreateTodoStore } from "../../../Store/CreateTodo"
+import { useCreateTodoStore } from "../../../Store/CreateTodoStore"
 
 export const CreateTodoAction = () => {
     const { isComplete, setIsComplete } = useCreateTodoStore()
