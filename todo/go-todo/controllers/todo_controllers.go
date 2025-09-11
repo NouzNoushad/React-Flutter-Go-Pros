@@ -120,5 +120,5 @@ func (s *APIServer) HandleUpdateTodo(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "Todo updated", "todo": todo})
+	c.JSON(http.StatusOK, gin.H{"message": "Todo updated", "todo": todo})
 }

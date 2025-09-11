@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { deleteData, fetchData } from "../../../Lib/APINetwork/BaseClients"
-import { APIResponse } from "../../../Lib/APINetwork/APIResponse"
-import { API_ENDPOINTS, getEndPoints } from "../../../Lib/APINetwork/EndPoints"
+import { deleteData, fetchData } from "../../Lib/APINetwork/BaseClients"
+import { APIResponse } from "../../Lib/APINetwork/APIResponse"
+import { API_ENDPOINTS, getEndPoints } from "../../Lib/APINetwork/EndPoints"
 import { toast } from "sonner"
 
 export const TodoAction = () => {

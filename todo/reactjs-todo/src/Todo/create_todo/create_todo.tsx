@@ -3,7 +3,7 @@ import FormTitle from './pages/title'
 import FormDescription from './pages/description'
 import FormCheckbox from './pages/checkbox'
 import FormButton from './pages/button'
-import { CreateTodoAction } from './actions/CreateTodoAction'
+import { CreateTodoAction } from '../actions/CreateTodoAction'
 
 export default function CreateTodo() {
 

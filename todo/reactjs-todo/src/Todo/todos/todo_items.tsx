@@ -1,14 +1,24 @@
 import React from 'react'
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { TodoAction } from './actions/TodoAction';
+import { TodoAction } from '../actions/TodosAction';
 import TodoItem from './pages/todo';
 import { formatDate, formatTime } from '../../Lib/Helpers';
 import CustomDialog from '../../Components/dailog_box';
 import { useTodoStore } from '../../Store/TodoStore';
+import FormTitle from '../create_todo/pages/title';
+import FormDescription from '../create_todo/pages/description';
+import FormButton from '../create_todo/pages/button';
+import { CreateTodoAction } from '../actions/CreateTodoAction';
+import { useEditTodoStore } from '../../Store/EditTodoStore';
+import EditFormCheckbox from '../create_todo/pages/edit_checkbox';
 
 export default function TodoItems() {
     const { todoData, todoError, isTodoLoading, handleDeleteTodo } = TodoAction()
-    const { isOpenDeleteTodo, setIsOpenDeleteTodo, selectedTodoId } = useTodoStore()
+    const { handleFormSubmit } = CreateTodoAction()
+    const { isOpenDeleteTodo, isOpenEditTodo, setIsOpenDeleteTodo, setIsOpenEditTodo, selectedTodoId } = useTodoStore()
+    const { setIsCompleteEdit } = useEditTodoStore()
+
+    const selectedTodo = todoData?.todos.find(todo => todo.id === selectedTodoId)
 
     if (isTodoLoading) {
         <div className="text-center py-10">
@@ -37,7 +47,12 @@ export default function TodoItems() {
                                 <div className="flex flex-row items-center justify-between">
                                     <h4 className='text-xs'>{formatDate(todo.created_at)}</h4>
                                     <div className="flex flex-row items-center gap-2">
-                                        <PencilIcon className='size-4 text-white' />
+                                        <button type='button'>
+                                            <PencilIcon className='size-4 text-white' onClick={() => {
+                                                setIsOpenEditTodo(true, todo.id)
+                                                setIsCompleteEdit(todo.is_complete)
+                                            }} />
+                                        </button>
                                         <button type='button' onClick={() => setIsOpenDeleteTodo(true, todo.id)}>
                                             <TrashIcon className='size-4 text-white cursor-pointer' />
                                         </button>
@@ -67,6 +82,25 @@ export default function TodoItems() {
                 title="Delete Todo"
                 description="Are you sure you want to delete your todo? This action cannot be undone."
             />
+            {/* Edit Dialog */}
+            <CustomDialog
+                isOpen={isOpenEditTodo}
+                onClose={() => {
+                    setIsOpenEditTodo(false)
+                }}
+                onConfirm={undefined}
+                title="Edit Todo"
+                description=""
+            >
+                {selectedTodo && (<form action="" onSubmit={(e) => {
+                    handleFormSubmit(e)
+                }} className='mt-8 space-y-2'>
+                    <FormTitle defaultValue={selectedTodo.title} />
+                    <FormDescription defaultValue={selectedTodo.description} />
+                    <EditFormCheckbox />
+                    <FormButton />
+                </form>)}
+            </CustomDialog>
         </>
     )
 }

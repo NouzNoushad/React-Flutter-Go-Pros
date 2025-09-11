@@ -28,5 +28,5 @@ func (s *PostgresStore) DeleteTodo(id string) error {
 
 // update todo
 func (s *PostgresStore) UpdateTodo(todo *models.Todo, id string) error {
-	return s.db.Model(models.Todo{}).Where("id = ?", id).Updates(todo).Error
+	return s.db.Model(models.Todo{}).Where("id = ?", id).Select("*").Updates(todo).Error
 }

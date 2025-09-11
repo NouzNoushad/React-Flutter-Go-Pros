@@ -9,6 +9,7 @@ interface CustomDialogProps {
     onConfirm?: () => void
     title: string
     description: string
+    children?: React.ReactNode
 }
 
 export default function CustomDialog({
@@ -17,6 +18,7 @@ export default function CustomDialog({
     onConfirm,
     title,
     description,
+    children,
 }: CustomDialogProps) {
     const dialogRef = useRef<HTMLDivElement>(null)
 
@@ -67,22 +69,26 @@ export default function CustomDialog({
             >
                 <h2 className="text-center text-[17px] font-medium">{title}</h2>
                 <p className="text-center text-sm mt-2">{description}</p>
-                <div className="mt-6 flex justify-center space-x-3">
-                    <button
-                        onClick={onClose}
-                        className="px-4 py-2 text-sm rounded bg-gray-200 text-black hover:bg-gray-300 cursor-pointer"
-                    >
-                        Cancel
-                    </button>
-                    {onConfirm && (
+                {
+                    children ? (
+                        <div className="mt-4">{children}</div>
+                    ) : <div className="mt-6 flex justify-center space-x-3">
                         <button
-                            onClick={onConfirm}
-                            className="px-4 py-2 text-sm rounded bg-red-600 text-white hover:bg-red-700 cursor-pointer"
+                            onClick={onClose}
+                            className="px-4 py-2 text-sm rounded bg-gray-200 text-black hover:bg-gray-300 cursor-pointer"
                         >
-                            Confirm
+                            Cancel
                         </button>
-                    )}
-                </div>
+                        {onConfirm && (
+                            <button
+                                onClick={onConfirm}
+                                className="px-4 py-2 text-sm rounded bg-red-600 text-white hover:bg-red-700 cursor-pointer"
+                            >
+                                Confirm
+                            </button>
+                        )}
+                    </div>
+                }
             </div>
         </div>
     )
