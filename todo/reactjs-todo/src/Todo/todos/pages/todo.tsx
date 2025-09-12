@@ -1,10 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Checkbox } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/24/outline'
 import { Todo } from '../../../Lib/APINetwork/APIResponse'
+import { CreateTodoAction } from '../../actions/CreateTodoAction'
 
 export default function TodoItem({ todo }: { todo: Todo }) {
-    const [enabled, setEnabled] = useState(todo.is_complete)
+    const [enabled, setEnabled] = useState(false)
+    const { handleCheckboxSubmit } = CreateTodoAction()
+
+    const handleToggle = (value: boolean) => {
+        setEnabled(value)
+        handleCheckboxSubmit(value, todo.id)
+    }
+
+    useEffect(() => {
+        setEnabled(todo.is_complete)
+    }, [todo])
 
     return (
         <div className='flex-1 flex flex-row items-start justify-between'>
@@ -14,7 +25,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
             </div>
             <Checkbox
                 checked={enabled}
-                onChange={setEnabled}
+                onChange={handleToggle}
                 className="group size-4 rounded-[5px] bg-white/10 flex items-center justify-center ring-1 ring-white/15 ring-inset focus:not-data-focus:outline-none data-[checked]:bg-white data-focus:outline data-focus:outline-offset-2 data-focus:outline-white"
             >
                 <CheckIcon className="hidden size-3 text-black group-data-[checked]:block" />

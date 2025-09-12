@@ -29,7 +29,7 @@ export const CreateTodoAction = () => {
 
             if (selectedTodoId) {
                 setIsOpenEditTodo(false)
-                setIsCompleteEdit(false)
+                setIsCompleteEdit(result.todo.is_complete)
             } else {
                 setIsComplete(false)
             }
@@ -63,7 +63,33 @@ export const CreateTodoAction = () => {
         }
     }
 
+    const updateTodoCheckboxMutation = useMutation({
+        mutationFn: async ({ todoId, formData }: { todoId: string, formData: FormData }) => {
+            const url = `${API_ENDPOINTS.TODO}/${todoId}`
+            const urlEnpoint = getEndPoints(url)
+            const data = await updateData<APIResponse>(urlEnpoint, formData)
+            return data
+        },
+        onSuccess: (result: APIResponse) => {
+            console.log(`message: ${result.message}`)
+
+            queryClient.invalidateQueries({ queryKey: ['todo'] })
+        },
+        onError: (error) => {
+            console.log(`Failed: ${error.message}`)
+            toast.error(`${error.message}`)
+        }
+    })
+
+    const handleCheckboxSubmit = (isComplete: boolean, id: string) => {
+        const formData = new FormData()
+        formData.set("is_complete", JSON.stringify(isComplete))
+
+        updateTodoCheckboxMutation.mutate({ todoId: id, formData })
+    }
+
     return {
         handleFormSubmit,
+        handleCheckboxSubmit,
     }
 }
