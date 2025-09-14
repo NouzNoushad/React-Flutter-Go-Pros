@@ -4,10 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"go-chat/models"
+	"go-chat/repositories"
 	"log"
 	"time"
-
-	"gorm.io/gorm"
 )
 
 // hub
@@ -16,16 +15,16 @@ type Hub struct {
 	broadcast  chan []byte
 	register   chan *Client
 	unregister chan *Client
-	db         *gorm.DB
+	storage    repositories.Storage
 }
 
-func NewHub(db *gorm.DB) *Hub {
+func NewHub(storage repositories.Storage) *Hub {
 	return &Hub{
 		rooms:      make(map[string]map[*Client]bool),
 		broadcast:  make(chan []byte),
 		register:   make(chan *Client),
 		unregister: make(chan *Client),
-		db:         db,
+		storage:    storage,
 	}
 }
 
@@ -39,9 +38,9 @@ func (h *Hub) Run() {
 			}
 			h.rooms[c.room][c] = true
 
-			// load history
-			var msgs []models.Message
-			if err := h.db.Where("room = ?", c.room).Order("created_at desc").Limit(20).Find(&msgs); err != nil {
+			// load messages
+			msgs, err := h.storage.GetMessages(c.room, 20)
+			if err != nil {
 				log.Println("failed to load history:", err)
 				continue
 			}
@@ -77,21 +76,20 @@ func (h *Hub) Run() {
 				msg.CreatedAt = time.Now()
 			}
 
-			// reply
-			if msg.ReplyTo != nil {
-				var original models.Message
-				if err := h.db.Where("id = ?", *msg.ReplyTo).First(&original).Error; err == nil {
-					msg.ReplyToMessage = original.Content
-				}
-			}
-
 			if msg.ReplyTo != nil && *msg.ReplyTo == "" {
 				msg.ReplyTo = nil
 			}
 
+			if msg.Type == "reply" && msg.ReplyTo != nil {
+				original, err := h.storage.GetMessageByID(*msg.ReplyTo)
+				if err == nil {
+					msg.ReplyToMessage = original.Content
+				}
+			}
+
 			// save to DB
 			ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
-			if err := h.db.WithContext(ctx).Create(&msg).Error; err != nil {
+			if err := h.storage.SaveMessage(ctx, &msg); err != nil {
 				log.Panicln("failed to save message:", err)
 			}
 			cancel()

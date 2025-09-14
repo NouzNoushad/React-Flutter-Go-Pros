@@ -5,6 +5,7 @@ import (
 	"go-chat/config"
 	"go-chat/controllers"
 	"go-chat/repositories"
+	"go-chat/routes"
 	"log"
 	"net/http"
 )
@@ -14,17 +15,15 @@ func main() {
 	flag.Parse()
 
 	db := config.ConnectDB()
-	repositories.NewPostgresStore(db)
+	store := repositories.NewPostgresStore(db)
 
-	hub := controllers.NewHub(db)
+	hub := controllers.NewHub(store)
 	go hub.Run()
 
-	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
-		controllers.ServeWS(hub, w, r)
-	})
+	router := routes.Router(store, hub)
 
 	log.Printf("server listening on %s", *addr)
-	if err := http.ListenAndServe(*addr, nil); err != nil {
+	if err := http.ListenAndServe(*addr, router); err != nil {
 		log.Fatal(err)
 	}
 }
