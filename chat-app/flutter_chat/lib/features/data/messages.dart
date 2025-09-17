@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 class MessagesRepository {
   Future<List<Message>> fetchMessages(String room) async {
-    final url = Uri.parse('http://localhost:8080/messages/$room');
+    final url = Uri.parse('http://10.0.2.2:8080/messages/$room');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {

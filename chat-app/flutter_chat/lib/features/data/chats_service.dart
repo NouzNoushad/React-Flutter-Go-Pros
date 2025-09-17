@@ -9,7 +9,7 @@ class ChatsService {
   final MessagesRepository _messagesRepository = MessagesRepository();
 
   void connect() {
-    channel = WebSocketChannel.connect(Uri.parse('ws://localhost:8080/ws'));
+    channel = WebSocketChannel.connect(Uri.parse('ws://10.0.2.2:8080/ws'));
   }
 
   void sendMessage({

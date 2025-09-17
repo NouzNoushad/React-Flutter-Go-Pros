@@ -73,10 +73,12 @@ class _HomeViewState extends State<HomeView> {
         children: [
           Expanded(
             child: Container(
-              color: Colors.yellow,
+              color: Colors.transparent,
               child: ListView.separated(
                 itemBuilder: (context, index) {
-                  return Container();
+                  return Container(
+                    child: Text(messages.length.toString()),
+                  );
                 },
                 separatorBuilder: (context, index) => SizedBox(height: 8),
                 itemCount: messages.length,
