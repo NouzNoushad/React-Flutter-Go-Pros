@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { FireIcon } from "../components/icons";
 import { FocusIcon } from "../components/icons";
 import { GlobeIcon } from "../components/icons";
@@ -10,114 +9,120 @@ import { renderToStaticMarkup } from "react-dom/server";
 
 type IconConfig = {
     name: string;
-    Component: React.FC<{ size?: number; strokeWidth?: number; color?: string }>;
+    Component: React.FC<{ size?: number; color?: string }>;
+    defaultSize: number;
 };
 
 const icons: IconConfig[] = [
-    { name: "fire", Component: FireIcon },
-    { name: "focus", Component: FocusIcon },
-    { name: "globe", Component: GlobeIcon },
-    { name: "infinity", Component: InfinityIcon },
-    { name: "nav", Component: NavIcon },
-    { name: "replay", Component: ReplayIcon },
+    { name: "fire", Component: FireIcon, defaultSize: 40 },
+    { name: "focus", Component: FocusIcon, defaultSize: 40 },
+    { name: "globe", Component: GlobeIcon, defaultSize: 40 },
+    { name: "infinity", Component: InfinityIcon, defaultSize: 40 },
+    { name: "nav", Component: NavIcon, defaultSize: 40 },
+    { name: "replay", Component: ReplayIcon, defaultSize: 30 },
 ];
 
-export default function Home() {
+export default function PracticeHome() {
+    const [openCode, setOpenCode] = useState<string | null>(null)
+    const toggleCode = (name: string) => {
+        if (openCode === name) setOpenCode(null)
+        else setOpenCode(name)
+    }
     const [controls, setControls] = useState(
         icons.reduce(
             (acc, icon) => ({
                 ...acc,
-                [icon.name]: { size: 40, strokeWidth: 2, color: "#000" },
+                [icon.name]: {
+                    size: icon.defaultSize,
+                    color: "#000"
+                }
             }),
-            {} as Record<string, { size: number; strokeWidth: number; color: string }>
+            {} as Record<string, { size: number; color: string }>
         )
-    );
+    )
 
     const handleChange = (
         name: string,
-        field: keyof { size: number; strokeWidth: number; color: string },
+        field: keyof { size: number; color: string },
         value: string | number
     ) => {
         setControls((prev) => ({
             ...prev,
             [name]: { ...prev[name], [field]: value },
-        }));
-    };
+        }))
+    }
 
+    // download svg
     const downloadSVG = (name: string) => {
-        const icon = icons.find((i) => i.name === name);
-        if (!icon) return;
-        const { size, strokeWidth, color } = controls[name];
+        const icon = icons.find((i) => i.name === name)
+        if (!icon) return
+        const { size, color } = controls[name]
         import("react-dom/server").then(({ renderToStaticMarkup }) => {
             const svgString = renderToStaticMarkup(
-                <icon.Component size={size} strokeWidth={strokeWidth} color={color} />
-            );
-            const blob = new Blob([svgString], { type: "image/svg+xml" });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = `${name}.svg`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-        });
-    };
+                <icon.Component size={size} color={color} />
+            )
+            const blob = new Blob([svgString], { type: "image/svg+xml" })
+            const url = URL.createObjectURL(blob)
+            const link = document.createElement("a")
+            link.href = url
+            link.download = `${name}.svg`
+            document.body.appendChild(link)
+            link.click()
+            document.body.removeChild(link)
+            URL.revokeObjectURL(url)
+        })
+    }
 
+    // download png
     const downloadPNG = (name: string) => {
-        const icon = icons.find((i) => i.name === name);
-        if (!icon) return;
-        const { size, strokeWidth, color } = controls[name];
+        const icon = icons.find((i) => i.name === name)
+        if (!icon) return
+        const { size, color } = controls[name]
         import("react-dom/server").then(({ renderToStaticMarkup }) => {
             const svgString = renderToStaticMarkup(
-                <icon.Component size={size} strokeWidth={strokeWidth} color={color} />
-            );
-            const blob = new Blob([svgString], { type: "image/svg+xml" });
-            const url = URL.createObjectURL(blob);
-            const img = new Image();
-            img.src = url;
+                <icon.Component size={size} color={color} />
+            )
+            const blob = new Blob([svgString], { type: "image/svg+xml" })
+            const url = URL.createObjectURL(blob)
+            const img = new Image()
+            img.src = url
             img.onload = () => {
-                const canvas = document.createElement("canvas");
-                canvas.width = size;
-                canvas.height = size;
-                const ctx = canvas.getContext("2d");
-                if (!ctx) return;
-                ctx.drawImage(img, 0, 0, size, size);
-                const pngURL = canvas.toDataURL("image/png");
-                const link = document.createElement("a");
-                link.href = pngURL;
-                link.download = `${name}.png`;
-                link.click();
-                URL.revokeObjectURL(url);
-            };
-        });
-    };
+                const canvas = document.createElement("canvas")
+                canvas.width = size
+                canvas.height = size
+                const ctx = canvas.getContext("2d")
+                if (!ctx) return
+                ctx.drawImage(img, 0, 0, size, size)
+                const pngURL = canvas.toDataURL("image/png")
+                const link = document.createElement("a")
+                link.href = pngURL
+                link.download = `${name}.png`
+                link.click()
+                URL.revokeObjectURL(url)
+            }
+        })
+    }
 
+    // copy to clipboard
     const copyToClipboard = (name: string) => {
-        const icon = icons.find((i) => i.name === name);
-        if (!icon) return;
-        const { size, strokeWidth, color } = controls[name];
+        const icon = icons.find((i) => i.name === name)
+        if (!icon) return
+        const { size, color } = controls[name]
         import("react-dom/server").then(({ renderToStaticMarkup }) => {
             const svgString = renderToStaticMarkup(
-                <icon.Component size={size} strokeWidth={strokeWidth} color={color} />
-            );
+                <icon.Component size={size} color={color} />
+            )
             navigator.clipboard.writeText(svgString).then(() => {
-                alert(`${name} copied to clipboard`);
-            });
-        });
-    };
-
-    const [openCode, setOpenCode] = useState<string | null>(null);
-    const toggleCode = (name: string) => {
-        if (openCode === name) setOpenCode(null);
-        else setOpenCode(name);
-    };
+                alert(`${name} copied to clipboard`)
+            })
+        })
+    }
 
     return (
         <div className="container-lg mt-[5rem]">
             <div className="grid lg:grid-cols-6 sm:grid-cols-4 grid-cols-2 gap-6">
                 {icons.map(({ name, Component }) => {
-                    const { size, strokeWidth, color } = controls[name];
+                    const { size, color } = controls[name]
                     return (
                         <div key={name} className="flex flex-col items-start gap-2">
                             <div className="flex items-center justify-center border border-black rounded-lg p-2">
@@ -166,11 +171,15 @@ export default function Home() {
                                     className="border border-black rounded-lg py-1 px-2 text-xs"
                                     onClick={() => toggleCode(name)}
                                 >
-                                    {openCode === name ? "Hide Code" : "Show Code"}
+                                    {openCode === name ? "Hide Code " : "Show Code"}
                                 </button>
                                 {openCode === name && (
                                     <pre className="border border-black p-1 rounded text-xs overflow-auto max-w-[150px]">
-                                        {renderToStaticMarkup(<Component size={size} strokeWidth={strokeWidth} color={color} />)}
+                                        {
+                                            renderToStaticMarkup(
+                                                <Component size={size} color={color} />
+                                            )
+                                        }
                                     </pre>
                                 )}
                             </div>

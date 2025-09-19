@@ -1,11 +1,11 @@
 import Header from "./header";
-import Home from "./home";
+import PracticeHome from "./practice";
 
 export default function Main() {
     return (
         <>
             <Header />
-            <Home />
+            <PracticeHome />
         </>
     )
 }
