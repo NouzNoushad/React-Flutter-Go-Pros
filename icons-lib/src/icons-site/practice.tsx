@@ -118,14 +118,15 @@ export default function PracticeHome() {
     }
 
     return (
-        <div className="container-lg mt-[5rem]">
-            <div className="grid lg:grid-cols-6 sm:grid-cols-4 grid-cols-2 gap-6">
+        <div className="container-lg mt-[5rem] mb-[3rem]">
+            <div className="grid lg:grid-cols-8 sm:grid-cols-6 grid-cols-4 gap-6">
                 {icons.map(({ name, Component }) => {
                     const { size, color } = controls[name]
                     return (
                         <div key={name} className="flex flex-col items-start gap-2">
-                            <div className="flex items-center justify-center border border-black rounded-lg p-2">
+                            <div className="w-full h-[8rem] flex flex-col gap-3 items-center justify-center border border-black rounded-lg p-2">
                                 <Component size={size} color={color} />
+                                <h4 className="text-sm">{name}</h4>
                             </div>
                             <div className="flex flex-col gap-1">
                                 <label className="flex flex-col">
