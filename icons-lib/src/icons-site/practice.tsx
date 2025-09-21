@@ -1,10 +1,5 @@
 import { useState } from "react";
-import { FireIcon } from "../components/icons";
-import { FocusIcon } from "../components/icons";
-import { GlobeIcon } from "../components/icons";
-import { InfinityIcon } from "../components/icons";
-import { NavIcon } from "../components/icons";
-import { ReplayIcon } from "../components/icons";
+import { AddCircleFillIcon, AddCircleOutlineIcon, CancelFillIcon, CancelOutlineIcon, CheckFillIcon, CheckOutlineIcon, LogoutFillIcon, LogoutOutlineIcon, MoreVertFillIcon, MoreVertOutlineIcon } from "../components/icons";
 import { renderToStaticMarkup } from "react-dom/server";
 
 type IconConfig = {
@@ -14,12 +9,16 @@ type IconConfig = {
 };
 
 const icons: IconConfig[] = [
-    { name: "fire", Component: FireIcon, defaultSize: 40 },
-    { name: "focus", Component: FocusIcon, defaultSize: 40 },
-    { name: "globe", Component: GlobeIcon, defaultSize: 40 },
-    { name: "infinity", Component: InfinityIcon, defaultSize: 40 },
-    { name: "nav", Component: NavIcon, defaultSize: 40 },
-    { name: "replay", Component: ReplayIcon, defaultSize: 30 },
+    { name: "cancel-outline", Component: CancelOutlineIcon, defaultSize: 30 },
+    { name: "cancel-fill", Component: CancelFillIcon, defaultSize: 30 },
+    { name: "logout-outline", Component: LogoutOutlineIcon, defaultSize: 30 },
+    { name: "logout-fill", Component: LogoutFillIcon, defaultSize: 30 },
+    { name: "checkout-outline", Component: CheckOutlineIcon, defaultSize: 30 },
+    { name: "checkout-fill", Component: CheckFillIcon, defaultSize: 30 },
+    { name: "add-circle-outline", Component: AddCircleOutlineIcon, defaultSize: 30 },
+    { name: "add-circle-fill", Component: AddCircleFillIcon, defaultSize: 30 },
+    { name: "more-vert-outline", Component: MoreVertOutlineIcon, defaultSize: 30 },
+    { name: "more-vert-fill", Component: MoreVertFillIcon, defaultSize: 30 },
 ];
 
 export default function PracticeHome() {
