@@ -8,9 +8,13 @@ import (
 )
 
 type Storage interface {
+	// Messages
 	GetMessages(room string, limit int) ([]models.Message, error)
 	GetMessageByID(id string) (*models.Message, error)
 	SaveMessage(ctx context.Context, msg *models.Message) error
+
+	// User
+	Register(user *models.User) error
 }
 
 type PostgresStore struct {
