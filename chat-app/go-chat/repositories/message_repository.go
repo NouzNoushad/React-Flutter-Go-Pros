@@ -8,7 +8,7 @@ import (
 // get messages
 func (s *PostgresStore) GetMessages(room string, limit int) ([]models.Message, error) {
 	var messages []models.Message
-	err := s.db.Where("room = ?", room).Order("created_at desc").Limit(limit).Find(&messages).Error
+	err := s.db.Where("room = ?", room).Order("created_at asc").Limit(limit).Find(&messages).Error
 	return messages, err
 }
 
