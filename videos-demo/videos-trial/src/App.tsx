@@ -1,11 +1,11 @@
-import AdminHome from './Admin/home'
+import AdminPage from './Admin/page'
 import './App.css'
 
 function App() {
 
     return (
         <>
-            <AdminHome />
+            <AdminPage />
         </>
     )
 }

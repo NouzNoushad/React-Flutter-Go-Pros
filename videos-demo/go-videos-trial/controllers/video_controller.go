@@ -71,6 +71,10 @@ func (s *APIServer) HandleUploadVideo(c *gin.Context) {
 
 	title := c.PostForm("title")
 	description := c.PostForm("description")
+	if title == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "title is required"})
+		return
+	}
 
 	// file
 	file, err := c.FormFile("video")
