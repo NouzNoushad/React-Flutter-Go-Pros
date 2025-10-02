@@ -15,4 +15,6 @@ func Router(router *gin.Engine) {
 	r := controllers.NewAPIServer(store)
 
 	router.POST("/upload-video", r.HandleUploadVideo)
+	router.GET("/videos", r.HandleGetVideos)
+	router.GET("/videos/:id", r.HandleGetVideoByID)
 }

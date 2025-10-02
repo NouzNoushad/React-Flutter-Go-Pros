@@ -9,6 +9,8 @@ import (
 type Storage interface {
 	UploadVideo(video *models.Video) error
 	UpdateVideo(id string, updates map[string]interface{}) error
+	GetVideos() (*[]models.Video, error)
+	GetVideoByID(id string) (*models.Video, error)
 }
 
 type PostgresStore struct {

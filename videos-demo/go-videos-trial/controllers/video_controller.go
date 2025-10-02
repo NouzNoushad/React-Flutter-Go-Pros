@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"go-videos-trial/models"
 	"net/http"
 	"os"
@@ -132,4 +133,33 @@ func (s *APIServer) HandleUploadVideo(c *gin.Context) {
 	go s.processVideo(video.ID, filePath, outputDir)
 
 	c.JSON(http.StatusOK, gin.H{"message": "Video uploaded", "video": video})
+}
+
+// get videos
+func (s *APIServer) HandleGetVideos(c *gin.Context) {
+	videos, err := s.storage.GetVideos()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	count := len(*videos)
+	label := "videos"
+	if count == 1 {
+		label = "video"
+	}
+
+	c.JSON(http.StatusOK, gin.H{"videos": videos, "total": fmt.Sprintf("%d %s", count, label)})
+}
+
+// get video by id
+func (s *APIServer) HandleGetVideoByID(c *gin.Context) {
+	id := c.Param("id")
+	video, err := s.storage.GetVideoByID(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"video": video})
 }
