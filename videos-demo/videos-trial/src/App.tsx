@@ -12,7 +12,7 @@ function App() {
                 <Routes>
                     <Route path='/admin' element={<AdminPage />} />
                     <Route path='/' element={<VideosTrialPage />} />
-                    <Route path='/video-item' element={<VideoMain />} />
+                    <Route path='/video-item/:id' element={<VideoMain />} />
                 </Routes>
             </BrowserRouter>
         </>

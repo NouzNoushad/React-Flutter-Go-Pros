@@ -28,7 +28,7 @@ export default function VideosMain() {
             <div className="mt-2 grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-3">
                 {
                     videosData.videos.map((video) => (
-                        <a href="/video-item" className="border-2 border-amber-800 rounded-lg shadow bg-amber-50 px-3 py-3 cursor-pointer" key={video.id}>
+                        <a href={`/video-item/${video.id}`} className="border-2 border-amber-800 rounded-lg shadow bg-amber-50 px-3 py-3 cursor-pointer" key={video.id}>
                             <div className="h-[150px]  border-2 border-amber-300 bg-amber-100 rounded-lg relative">
                                 <img src={`${BASE_URL}/${video.thumbnail}`} className="rounded-lg w-full h-full" />
                                 <div className="absolute right-0 bottom-0 text-xs bg-amber-300 rounded-tl-md px-2 py-1">
