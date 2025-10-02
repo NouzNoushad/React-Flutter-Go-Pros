@@ -59,7 +59,7 @@ func (s *APIServer) processVideo(videoId string, inputPath, outputDir string) er
 
 	updates := map[string]interface{}{
 		"HLSPath":   outputDir + "/index.m3u8",
-		"Thumbnail": outputDir + "/thumbnail.jpg",
+		"Thumbnail": outputDir + "/thumb001.jpg",
 		"Duration":  durationFloat,
 		"Status":    "ready",
 	}

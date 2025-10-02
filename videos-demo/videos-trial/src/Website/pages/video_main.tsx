@@ -1,12 +1,12 @@
 import Footer from "./footer";
 import Header from "./header";
-import VideosMain from "./main";
+import VideoItem from "./video_item";
 
-export default function VideoTrialHome() {
+export default function VideoMain() {
     return (
         <div className="flex flex-col h-screen">
             <Header />
-            <VideosMain />
+            <VideoItem />
             <Footer />
         </div>
     )

@@ -1,6 +1,7 @@
 export interface APIResponse {
     message: string
     video: Video
+    videos: Video[]
 }
 
 export interface Video {

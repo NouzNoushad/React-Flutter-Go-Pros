@@ -12,3 +12,15 @@ export async function postData<T>(url: string, data: FormData): Promise<T> {
 
     return jsonResponse
 }
+
+// fetch data
+export async function fetchData<T>(url: string): Promise<T> {
+    const response = await fetch(url)
+
+    const jsonResponse = await response.json()
+    if (!response.ok) {
+        throw new Error(`${jsonResponse.error}`)
+    }
+
+    return jsonResponse
+}
