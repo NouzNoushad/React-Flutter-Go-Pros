@@ -154,19 +154,21 @@ export default function VPlayer({ src }: { src: string }) {
 
                 {/* Playback rate */}
                 <div className="flex gap-1">
-                    {
-                        [0.5, 1, 1.5, 2].map((rate) => (
-                            <button className="cursor-pointer" key={rate} onClick={() => setPlaybackRate(rate)}>
-                                {rate}x
-                            </button>
-                        ))
-                    }
+                    <select name="" id="playbackRate" value={playbackRate} onChange={(e) => setPlaybackRate(parseFloat(e.target.value))} className="border border-white bg-black/35 rounded-md text-xs cursor-pointer focus:outline-none focus:ring-0">
+                        {
+                            [0.5, 1, 1.5, 2].map((rate) => (
+                                <option key={rate} value={rate} className="cursor-pointer">
+                                    {rate}x
+                                </option>
+                            ))
+                        }
+                    </select>
                 </div>
 
                 {/* Quality button */}
                 {
                     qualityLevels.length > 0 && (
-                        <select name="" id="" value={currentQuality} onChange={(e) => changeQuality(parseInt(e.target.value))} className="border border-white bg-black/35 rounded-md text-sm cursor-pointer">
+                        <select name="" id="" value={currentQuality} onChange={(e) => changeQuality(parseInt(e.target.value))} className="border border-white bg-black/35 rounded-md text-xs cursor-pointer focus:outline-none focus:ring-0">
                             <option value={-1}>Auto</option>
                             {
                                 qualityLevels.map((q, i) => (
