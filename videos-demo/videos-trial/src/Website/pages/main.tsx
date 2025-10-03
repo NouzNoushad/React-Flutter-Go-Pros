@@ -1,5 +1,5 @@
 import { VideosAction } from "../actions/videos_action"
-import VideoThumbnail from "./video_thumbnail"
+import VideoThumbnail from "../../Components/video_thumbnail"
 
 export default function VideosMain() {
     const { videosData, videosError, isVideosLoading } = VideosAction()

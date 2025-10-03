@@ -18,6 +18,46 @@ html {
     scroll-behavior: smooth;
 }
 
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    margin-top: -2px;
+    cursor: pointer;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 0;
+    background: linear-gradient(to right, white var(--value, 0%), #555 var(--value, 0%));
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-track {
+    height: 4px;
+    border-radius: 0;
+    background: #555;
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-progress {
+    background: white;
+    height: 4px;
+}
+
 @layer components {
     .container-lg {
         @apply max-w-[1300px] mx-auto px-6 xl:px-0;

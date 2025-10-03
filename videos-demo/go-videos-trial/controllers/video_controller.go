@@ -17,32 +17,47 @@ import (
 // process video
 func (s *APIServer) processVideo(videoId string, inputPath, outputDir string) error {
 	// create dir
-	exec.Command("mkdir", "-p", outputDir).Run()
+	if err := os.MkdirAll(outputDir, 0755); err != nil {
+		return err
+	}
 
-	// convert to hls
+	// hls generation
 	hls := exec.Command("ffmpeg",
 		"-i", inputPath,
-		"-profile:v", "baseline",
-		"-level", "3.0",
-		"-s", "640x360",
-		"-start_number", "0",
-		"-hls_time", "10",
-		"-hls_list_size", "0",
+		"-filter_complex",
+		"[0:v]split=3[v360][v720][v1080];"+
+			"[v360]scale=w=640:h=360:force_original_aspect_ratio=decrease[v360out];"+
+			"[v720]scale=w=1280:h=720:force_original_aspect_ratio=decrease[v720out];"+
+			"[v1080]scale=w=1920:h=1080:force_original_aspect_ratio=decrease[v1080out]",
+		// map scaled video + audio
+		"-map", "[v360out]", "-c:v:0", "libx264", "-b:v:0", "800k",
+		"-map", "[v720out]", "-c:v:1", "libx264", "-b:v:1", "2000k",
+		"-map", "[v1080out]", "-c:v:2", "libx264", "-b:v:2", "4000k",
+		"-map", "a:0", "-c:a:0", "aac", "-ar", "48000", "-b:a:0", "128k",
+		"-map", "a:0", "-c:a:1", "aac", "-ar", "48000", "-b:a:1", "128k",
+		"-map", "a:0", "-c:a:2", "aac", "-ar", "48000", "-b:a:2", "128k",
+
+		// HLS options
 		"-f", "hls",
-		outputDir+"/index.m3u8",
-	)
+		"-hls_time", "10",
+		"-hls_playlist_type", "vod",
+		"-hls_segment_filename", fmt.Sprintf("%s/data%%v_%%03d.ts", outputDir), // flattened segments
+		"-master_pl_name", "master.m3u8",
+		"-var_stream_map", "v:0,a:0 v:1,a:1 v:2,a:2",
+		fmt.Sprintf("%s/stream_%%v.m3u8", outputDir))
+
 	if err := hls.Run(); err != nil {
-		return err
+		return fmt.Errorf("hls generation failed: %w", err)
 	}
 
 	// generate thumbnails
 	thumbnail := exec.Command("ffmpeg",
 		"-i", inputPath,
 		"-vf", "fps=1/10",
-		outputDir+"/thumb%03d.jpg",
+		fmt.Sprintf("%s/thumb%%03d.jpg", outputDir),
 	)
 	if err := thumbnail.Run(); err != nil {
-		return err
+		return fmt.Errorf("thumbnail generation failed: %w", err)
 	}
 
 	// duration
@@ -51,14 +66,14 @@ func (s *APIServer) processVideo(videoId string, inputPath, outputDir string) er
 		"-of", "default=noprint_wrappers=1:nokey=1", inputPath)
 	out, err := duration.Output()
 	if err != nil {
-		return err
+		return fmt.Errorf("duration fetch failed: %w", err)
 	}
 
 	durationStr := strings.TrimSpace(string(out))
 	durationFloat, _ := strconv.ParseFloat(durationStr, 64)
 
 	updates := map[string]interface{}{
-		"HLSPath":   outputDir + "/index.m3u8",
+		"HLSPath":   outputDir + "/master.m3u8",
 		"Thumbnail": outputDir + "/thumb001.jpg",
 		"Duration":  durationFloat,
 		"Status":    "ready",

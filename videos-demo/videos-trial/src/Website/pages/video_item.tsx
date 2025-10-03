@@ -1,4 +1,4 @@
-import Player from "../../Components/VideoPlayer";
+import VPlayer from "../../Components/player";
 import { BASE_URL } from "../../Lib/APINetwork/EndPoints";
 import { VideoAction } from "../actions/video_action";
 
@@ -27,7 +27,7 @@ export default function VideoItem({ videoId }: { videoId: string | undefined }) 
             <div className="my-[4rem] container-md w-full px-5">
                 <div className=" px-2 flex flex-col items-center">
                     <div className="">
-                        <Player src={`${BASE_URL}/${videoData.video.hls_path}`} />
+                        <VPlayer src={`${BASE_URL}/${videoData.video.hls_path}`} />
                     </div>
                     <h1 className="mt-2 font-medium capitalize">{videoData.video.title}</h1>
                 </div>
