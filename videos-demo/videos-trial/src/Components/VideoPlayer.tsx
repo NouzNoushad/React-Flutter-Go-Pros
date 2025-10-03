@@ -4,7 +4,6 @@ import {
     MediaControlBar,
     MediaTimeRange,
     MediaTimeDisplay,
-    MediaVolumeRange,
     MediaPlaybackRateButton,
     MediaPlayButton,
     MediaSeekBackwardButton,
@@ -19,6 +18,7 @@ export default function Player({ src }: { src: string }) {
             style={{
                 width: "100%",
                 aspectRatio: "16/9",
+                border: "2px solid #fcd34d",
             }}
         >
             <ReactPlayer
@@ -35,9 +35,8 @@ export default function Player({ src }: { src: string }) {
                 <MediaSeekBackwardButton seekOffset={10} />
                 <MediaSeekForwardButton seekOffset={10} />
                 <MediaTimeRange />
-                <MediaTimeDisplay showDuration />
+                <MediaTimeDisplay showDuration={false} />
                 <MediaMuteButton />
-                <MediaVolumeRange />
                 <MediaPlaybackRateButton />
                 <MediaFullscreenButton />
             </MediaControlBar>

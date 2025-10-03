@@ -1,6 +1,5 @@
-import { BASE_URL } from "../../Lib/APINetwork/EndPoints"
-import { formatDuration } from "../../Lib/Constants"
 import { VideosAction } from "../actions/videos_action"
+import VideoThumbnail from "./video_thumbnail"
 
 export default function VideosMain() {
     const { videosData, videosError, isVideosLoading } = VideosAction()
@@ -29,12 +28,7 @@ export default function VideosMain() {
                 {
                     videosData.videos.map((video) => (
                         <a href={`/video-item/${video.id}`} className="border-2 border-amber-800 rounded-lg shadow bg-amber-50 px-3 py-3 cursor-pointer" key={video.id}>
-                            <div className="h-[150px]  border-2 border-amber-300 bg-amber-100 rounded-lg relative">
-                                <img src={`${BASE_URL}/${video.thumbnail}`} className="rounded-lg w-full h-full" />
-                                <div className="absolute right-0 bottom-0 text-xs bg-amber-300 rounded-tl-md px-2 py-1">
-                                    {formatDuration(video.duration) + ' h'}
-                                </div>
-                            </div>
+                            <VideoThumbnail video={video} />
                             <div className="mt-2">
                                 <h2 className="font-medium capitalize text-[15px]">{video.title}</h2>
                             </div>
