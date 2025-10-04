@@ -2,6 +2,7 @@ import type { Level } from "hls.js"
 import Hls from "hls.js"
 import { useEffect, useRef, useState } from "react"
 import { BackwardIcon, ForwardIcon, FullscreenIcon, MuteIcon, PauseIcon, PlayIcon, UnMuteIcon } from "./icons"
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 
 export default function VPlayer({ src }: { src: string }) {
     const videoRef = useRef<HTMLVideoElement>(null)
@@ -13,6 +14,10 @@ export default function VPlayer({ src }: { src: string }) {
     const [playbackRate, setPlaybackRate] = useState(1)
     const [qualityLevels, setQualityLevels] = useState<Level[]>([])
     const [currentQuality, setCurrentQuality] = useState(-1)
+
+    const [showControls, setShowControls] = useState(false)
+    const [showStartPlay, setShowStartPlay] = useState(true)
+    const hideTimeout = useRef<ReturnType<typeof setTimeout>>(null)
 
     useEffect(() => {
         const video = videoRef.current
@@ -64,6 +69,23 @@ export default function VPlayer({ src }: { src: string }) {
         }
     }, [])
 
+    // reset
+    useEffect(() => {
+        const video = videoRef.current
+        if (!video) return
+
+        const handleVideoEnded = () => {
+            setPlaying(false)
+            setShowControls(true)
+            video.currentTime = 0
+        }
+
+        video.addEventListener("ended", handleVideoEnded)
+        return () => {
+            video.removeEventListener("ended", handleVideoEnded)
+        }
+    })
+
     // play
     const togglePlay = () => {
         const video = videoRef.current
@@ -74,6 +96,12 @@ export default function VPlayer({ src }: { src: string }) {
             video.play()
         }
         setPlaying(!playing)
+    }
+
+    // initial play
+    const handleStartPlay = () => {
+        setShowStartPlay(false)
+        togglePlay()
     }
 
     // seek
@@ -115,17 +143,46 @@ export default function VPlayer({ src }: { src: string }) {
         }
     }
 
+    // controls
+    const resetHideControls = () => {
+        if (showStartPlay) return
+
+        setShowControls(true)
+        if (hideTimeout.current) clearTimeout(hideTimeout.current)
+
+        if (playing) {
+            hideTimeout.current = setTimeout(() => {
+                setShowControls(false)
+            }, 3000)
+        }
+    }
+
     return (
-        <div className="relative">
-            <video ref={videoRef} controls={false}></video>
-            <div className="absolute bottom-0 left-0 px-2 py-2 text-white bg-black/20 w-full text-sm flex flex-row justify-between gap-2">
+        <div className="relative md:max-w-[700px] w-full aspect-video" onMouseMove={resetHideControls} onClick={resetHideControls}>
+            <video ref={videoRef} controls={false} onPlay={() => setPlaying(true)} onPause={() => {
+                setPlaying(false)
+                setShowControls(true)
+            }} className="w-full h-full object-contain" />
+
+            {/* Start play */}
+            {
+                showStartPlay && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/35">
+                        <button onClick={handleStartPlay} className="cursor-pointer">
+                            <PlayIcon className="size-20" />
+                        </button>
+                    </div>
+                )
+            }
+
+            <div className={`absolute bottom-0 left-0 px-2 py-2 text-white bg-black/20 w-full text-sm flex flex-row justify-between gap-2 transition-opacity duration-500 ${showControls ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
                 {/* Play button */}
                 <button onClick={togglePlay} className="cursor-pointer">
                     {playing ? <PauseIcon className="size-6" /> : <PlayIcon className="size-6" />}
                 </button>
 
                 {/* Seek button */}
-                <div className="flex gap-2">
+                <div className="hidden sm:flex gap-2">
                     <button onClick={() => seek(-10)} className="cursor-pointer">
                         <BackwardIcon className="size-6" />
                     </button>
@@ -136,12 +193,12 @@ export default function VPlayer({ src }: { src: string }) {
 
                 {/* Mute button */}
                 <button className="cursor-pointer" onClick={() => setMuted(!muted)}>
-                    {muted ? <UnMuteIcon className="size-6" /> : <MuteIcon className="size-6" />}
+                    {muted ? <MuteIcon className="size-6" /> : <UnMuteIcon className="size-6" />}
                 </button>
 
                 {/* Progress */}
                 <div className="flex items-center gap-2">
-                    <span>{formatTime(currentTime)}</span>
+                    <span className="hidden sm:inline-block">{formatTime(currentTime)}</span>
                     <input type="range" min={0} max={duration || 0} step={0.1} value={currentTime} onChange={(e) => {
                         const time = parseFloat(e.target.value)
                         if (videoRef.current) videoRef.current.currentTime = time
@@ -149,37 +206,37 @@ export default function VPlayer({ src }: { src: string }) {
                     }} className="w-full h-1 appearance-none bg-gray-300" style={{
                         "--value": `${(currentTime / (duration || 1)) * 100}%`
                     } as React.CSSProperties} />
-                    <span>{formatTime(duration)}</span>
+                    <span className="hidden sm:inline-block">{formatTime(duration)}</span>
                 </div>
 
                 {/* Playback rate */}
-                <div className="flex gap-1">
-                    <select name="" id="playbackRate" value={playbackRate} onChange={(e) => setPlaybackRate(parseFloat(e.target.value))} className="border border-white bg-black/35 rounded-md text-xs cursor-pointer focus:outline-none focus:ring-0">
-                        {
-                            [0.5, 1, 1.5, 2].map((rate) => (
-                                <option key={rate} value={rate} className="cursor-pointer">
+                <div className="hidden sm:flex gap-1">
+                    <Listbox value={playbackRate} onChange={setPlaybackRate}>
+                        <ListboxButton className="cursor-pointer text-xs">{playbackRate}x</ListboxButton>
+                        <ListboxOptions anchor="top" className="bg-black/80 text-white text-xs rounded-md">
+                            {[0.5, 1, 1.5, 2].map((rate) => (
+                                <ListboxOption key={rate} value={rate} className="data-focus:bg-white/10 px-2 py-1 cursor-pointer">
                                     {rate}x
-                                </option>
-                            ))
-                        }
-                    </select>
+                                </ListboxOption>
+                            ))}
+                        </ListboxOptions>
+                    </Listbox>
                 </div>
 
                 {/* Quality button */}
                 {
                     qualityLevels.length > 0 && (
-                        <select name="" id="" value={currentQuality} onChange={(e) => changeQuality(parseInt(e.target.value))} className="border border-white bg-black/35 rounded-md text-xs cursor-pointer focus:outline-none focus:ring-0">
-                            <option value={-1}>Auto</option>
-                            {
-                                qualityLevels.map((q, i) => (
-                                    <option key={i} value={i}>
-                                        {
-                                            `${q.height}p`
-                                        }
-                                    </option>
-                                ))
-                            }
-                        </select>
+                        <Listbox value={currentQuality} onChange={(value) => changeQuality(value)}>
+                            <ListboxButton className="cursor-pointer text-xs">{currentQuality === -1 ? 'Auto' : `${qualityLevels[currentQuality]?.height}p`}</ListboxButton>
+                            <ListboxOptions anchor="top" className="bg-black/80 text-white text-xs rounded-md">
+                                <ListboxOption key={-1} value={-1} className="data-focus:bg-white/10 px-2 py-1 cursor-pointer">Auto</ListboxOption>
+                                {qualityLevels.map((q, i) => (
+                                    <ListboxOption key={i} value={i} className="data-focus:bg-white/10 px-2 py-1 cursor-pointer">
+                                        {q.height}p
+                                    </ListboxOption>
+                                ))}
+                            </ListboxOptions>
+                        </Listbox>
                     )
                 }
 
