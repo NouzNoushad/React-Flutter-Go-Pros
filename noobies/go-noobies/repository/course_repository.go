@@ -7,17 +7,26 @@ func (s *PostgresStore) CreateCourse(course *models.Course) error {
 	return s.db.Create(course).Error
 }
 
-// create module
-func (s *PostgresStore) CreateModule(module *models.Module) error {
-	return s.db.Create(module).Error
+// get courses
+func (s *PostgresStore) GetCourses() (*[]models.Course, error) {
+	var courses []models.Course
+	err := s.db.Order("created_at DESC").Find(&courses).Error
+	return &courses, err
 }
 
-// upload video
-func (s *PostgresStore) UploadVideo(video *models.Video) error {
-	return s.db.Create(video).Error
+// get course by id
+func (s *PostgresStore) GetCourseByID(id string) (*models.Course, error) {
+	var course models.Course
+	err := s.db.Where("id = ?", id).First(&course).Error
+	return &course, err
 }
 
-// update video
-func (s *PostgresStore) UpdateVideo(id string, updates map[string]interface{}) error {
-	return s.db.Model(&models.Video{}).Where("id = ?", id).Updates(updates).Error
+// delete course
+func (s *PostgresStore) DeleteCourse(id string) error {
+	return s.db.Where("id = ?", id).Delete(&models.Course{}).Error
+}
+
+// update course
+func (s *PostgresStore) UpdateCourse(course *models.Course, id string) error {
+	return s.db.Model(models.Course{}).Where("id = ?", id).Select("*").Updates(course).Error
 }

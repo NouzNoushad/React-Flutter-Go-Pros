@@ -1,7 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"go-noobies/middlewares"
+	"go-noobies/routes"
+
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
-	fmt.Println("Hello noobies")
+	r := gin.Default()
+	r.Use(middlewares.CORSMiddleware())
+	r.Static("/uploads", "./uploads")
+
+	routes.Router(r)
+
+	r.Run(":8080")
 }
