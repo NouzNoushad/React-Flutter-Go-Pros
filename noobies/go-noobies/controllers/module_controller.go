@@ -81,7 +81,7 @@ func (s *APIServer) HandleGetModuleByID(c *gin.Context) {
 func (s *APIServer) HandleDeleteModule(c *gin.Context) {
 	id := c.Param("id")
 
-	if err := s.deleteVideos(c, id); err != nil {
+	if err := s.deleteVideos(id); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete videos"})
 		return
 	}

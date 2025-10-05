@@ -145,7 +145,7 @@ func (s *APIServer) handleUploadVideo(c *gin.Context) (*models.Video, error) {
 }
 
 // delete videos
-func (s *APIServer) deleteVideos(c *gin.Context, moduleID string) error {
+func (s *APIServer) deleteVideos(moduleID string) error {
 	videos, err := s.storage.GetVideosByModuleID(moduleID)
 	if err != nil {
 		return fmt.Errorf("Failed to get videos %s: %w", moduleID, err.Error())

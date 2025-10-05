@@ -71,7 +71,7 @@ func (s *APIServer) HandleDeleteCourse(c *gin.Context) {
 	}
 
 	for _, module := range *modules {
-		if err := s.deleteVideos(c, module.ID); err != nil {
+		if err := s.deleteVideos(module.ID); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete videos"})
 			return
 		}
