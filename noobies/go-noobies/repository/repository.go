@@ -17,6 +17,7 @@ type Storage interface {
 	// module
 	CreateModule(module *models.Module) error
 	GetModules() (*[]models.Module, error)
+	GetModulesByCourseID(courseID string) (*[]models.Module, error)
 	GetModuleByID(id string) (*models.Module, error)
 	DeleteModule(id string) error
 	UpdateModule(module *models.Module, id string) error
@@ -24,6 +25,9 @@ type Storage interface {
 	// vidoe
 	UploadVideo(video *models.Video) error
 	UpdateVideo(id string, updates map[string]interface{}) error
+	GetVideos() (*[]models.Video, error)
+	GetVideoByID(id string) (*models.Video, error)
+	GetVideosByModuleID(moduleID string) (*[]models.Video, error)
 }
 
 type PostgresStore struct {

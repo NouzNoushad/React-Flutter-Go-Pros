@@ -10,14 +10,21 @@ func (s *PostgresStore) CreateModule(module *models.Module) error {
 // get modules
 func (s *PostgresStore) GetModules() (*[]models.Module, error) {
 	var modules []models.Module
-	err := s.db.Order("created_at DESC").Find(&modules).Error
+	err := s.db.Preload("Video").Order("created_at DESC").Find(&modules).Error
+	return &modules, err
+}
+
+// get modules by course id
+func (s *PostgresStore) GetModulesByCourseID(courseID string) (*[]models.Module, error) {
+	var modules []models.Module
+	err := s.db.Preload("Video").Where("course_id = ?", courseID).Find(&modules).Error
 	return &modules, err
 }
 
 // get module by id
 func (s *PostgresStore) GetModuleByID(id string) (*models.Module, error) {
 	var module models.Module
-	err := s.db.Where("id = ?", id).First(&module).Error
+	err := s.db.Preload("Video").Where("id = ?", id).First(&module).Error
 	return &module, err
 }
 

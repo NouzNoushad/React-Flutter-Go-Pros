@@ -62,8 +62,22 @@ func (s *APIServer) HandleGetCourseByID(c *gin.Context) {
 // delete course
 func (s *APIServer) HandleDeleteCourse(c *gin.Context) {
 	id := c.Param("id")
-	err := s.storage.DeleteCourse(id)
+
+	// get modules by course id
+	modules, err := s.storage.GetModulesByCourseID(id)
 	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	for _, module := range *modules {
+		if err := s.deleteVideos(c, module.ID); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete videos"})
+			return
+		}
+	}
+
+	if err := s.storage.DeleteCourse(id); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
