@@ -29,11 +29,10 @@ func (s *APIServer) processVideo(videoId string, inputPath, outputDir string) er
 			"[v360]scale=w=640:h=360:force_original_aspect_ratio=decrease[v360out];"+
 			"[v720]scale=w=1280:h=720:force_original_aspect_ratio=decrease[v720out];"+
 			"[v1080]scale=w=1920:h=1080:force_original_aspect_ratio=decrease[v1080out]",
-		// video mappings
+		// map scaled video + audio
 		"-map", "[v360out]", "-c:v:0", "libx264", "-b:v:0", "800k",
 		"-map", "[v720out]", "-c:v:1", "libx264", "-b:v:1", "2000k",
 		"-map", "[v1080out]", "-c:v:2", "libx264", "-b:v:2", "4000k",
-		// audio mappings
 		"-map", "a:0", "-c:a:0", "aac", "-ar", "48000", "-b:a:0", "128k",
 		"-map", "a:0", "-c:a:1", "aac", "-ar", "48000", "-b:a:1", "128k",
 		"-map", "a:0", "-c:a:2", "aac", "-ar", "48000", "-b:a:2", "128k",
@@ -42,26 +41,22 @@ func (s *APIServer) processVideo(videoId string, inputPath, outputDir string) er
 		"-f", "hls",
 		"-hls_time", "10",
 		"-hls_playlist_type", "vod",
-		"-hls_segment_filename", fmt.Sprintf("%s/data%%v_%%03d.ts", outputDir),
+		"-hls_segment_filename", fmt.Sprintf("%s/data%%v_%%03d.ts", outputDir), // flattened segments
 		"-master_pl_name", "master.m3u8",
 		"-var_stream_map", "v:0,a:0 v:1,a:1 v:2,a:2",
 		fmt.Sprintf("%s/stream_%%v.m3u8", outputDir))
 
 	if err := hls.Run(); err != nil {
-		s.storage.UpdateVideo(videoId, map[string]interface{}{"Status": "failed to update video"})
 		return fmt.Errorf("hls generation failed: %w", err)
 	}
 
 	// generate thumbnails
-	thumbPath := filepath.Join(outputDir, "thumb_"+videoId+".jpg")
-	thumbnail := exec.Command(
-		"ffmpeg",
+	thumbnail := exec.Command("ffmpeg",
 		"-i", inputPath,
 		"-vf", "fps=1/10",
-		thumbPath,
+		fmt.Sprintf("%s/thumb%%03d.jpg", outputDir),
 	)
 	if err := thumbnail.Run(); err != nil {
-		s.storage.UpdateVideo(videoId, map[string]interface{}{"Status": "failed to update thumbnail"})
 		return fmt.Errorf("thumbnail generation failed: %w", err)
 	}
 
@@ -78,10 +73,10 @@ func (s *APIServer) processVideo(videoId string, inputPath, outputDir string) er
 	durationFloat, _ := strconv.ParseFloat(durationStr, 64)
 
 	updates := map[string]interface{}{
-		"HLSPath":   filepath.Join(outputDir, "master.m3u8"),
-		"Thumbnail": thumbPath,
-		"Duration":  durationFloat,
-		"Status":    "ready",
+		"hls_path":  outputDir + "/master.m3u8",
+		"thumbnail": outputDir + "/thumb001.jpg",
+		"duration":  durationFloat,
+		"status":    "ready",
 	}
 
 	return s.storage.UpdateVideo(videoId, updates)

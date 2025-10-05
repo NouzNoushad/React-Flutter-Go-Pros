@@ -10,7 +10,7 @@ func (s *PostgresStore) CreateCourse(course *models.Course) error {
 // get courses
 func (s *PostgresStore) GetCourses() (*[]models.Course, error) {
 	var courses []models.Course
-	err := s.db.Order("created_at DESC").Find(&courses).Error
+	err := s.db.Preload("Modules.Video").Order("created_at DESC").Find(&courses).Error
 	return &courses, err
 }
 

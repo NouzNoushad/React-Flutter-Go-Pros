@@ -31,13 +31,19 @@ func (s *APIServer) HandleCreateModule(c *gin.Context) {
 		CourseID:          courseID,
 		ModuleTitle:       moduleTitle,
 		ModuleDescription: moduleDescription,
-		Video:             *video,
 	}
 
 	if err := s.storage.CreateModule(module); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save course"})
 		return
 	}
+
+	if err := s.storage.UpdateVideo(video.ID, map[string]interface{}{"ModuleID": module.ID}); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to link video"})
+		return
+	}
+
+	module.Video = *video
 
 	c.JSON(http.StatusCreated, gin.H{"message": "New module created", "module": module})
 }
