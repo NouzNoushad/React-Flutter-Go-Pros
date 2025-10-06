@@ -1,9 +1,15 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
+import AdminPage from './Admin/page'
 
 function App() {
     return (
         <>
-            <h1 className='text-4xl text-red-500'>Hello</h1>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/admin" element={<AdminPage />} />
+                </Routes>
+            </BrowserRouter>
         </>
     )
 }

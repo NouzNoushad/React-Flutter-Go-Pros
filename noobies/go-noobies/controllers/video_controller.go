@@ -148,23 +148,23 @@ func (s *APIServer) handleUploadVideo(c *gin.Context) (*models.Video, error) {
 func (s *APIServer) deleteVideos(moduleID string) error {
 	videos, err := s.storage.GetVideosByModuleID(moduleID)
 	if err != nil {
-		return fmt.Errorf("Failed to get videos %s: %w", moduleID, err.Error())
+		return fmt.Errorf("failed to get videos %s: %w", moduleID, err)
 	}
 
 	for _, video := range *videos {
 		if video.FilePath != "" {
 			if err := os.Remove(video.FilePath); err != nil && !os.IsNotExist(err) {
-				fmt.Printf("Error deleting raw file %s: %v\n", video.FilePath, err)
+				return fmt.Errorf("error deleting raw file %s: %w", video.FilePath, err)
 			} else {
-				fmt.Printf("Deleted raw file: %s\n", video.FilePath)
+				fmt.Printf("deleted raw file: %s\n", video.FilePath)
 			}
 		}
 
 		processedDir := filepath.Join("uploads", "videos", "processed", video.ID)
 		if err := os.RemoveAll(processedDir); err != nil && !os.IsNotExist(err) {
-			fmt.Printf("Error deleting processed folder: %v\n", err)
+			return fmt.Errorf("error deleting processed folder: %w", err)
 		} else {
-			fmt.Printf("Deleted processed folder: %s\n", video.ID)
+			fmt.Printf("deleted processed folder: %s\n", video.ID)
 		}
 	}
 	return nil
