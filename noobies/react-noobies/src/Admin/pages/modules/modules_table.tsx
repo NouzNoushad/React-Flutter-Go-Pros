@@ -18,7 +18,6 @@ export default function MainModulesTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* Users */}
                         {
                             paginatedItems.map(function (module, index) {
                                 return (
