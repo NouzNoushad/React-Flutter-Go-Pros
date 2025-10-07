@@ -1,4 +1,4 @@
-import { SetCoursesAction } from "../../actions/SetCoursesAction";
+import { SetCoursesAction } from "../../actions/Courses/SetCoursesAction";
 import MainCoursesSideAction from "./courses_side_action";
 
 export default function MainCoursesTable() {
@@ -7,7 +7,7 @@ export default function MainCoursesTable() {
     return (
         <div className="">
             {
-                sortCourses.length != 0 ? <table className='w-full border-collapse'>
+                sortCourses.length !== 0 ? <table className='w-full border-collapse'>
                     <thead>
                         <tr className='border-b-[0.5px] border-dashed border-b-gray-500'>
                             <th className='min-w-[20px] text-start font-semibold text-[13px] uppercase py-4 '><span>Sl no</span></th>

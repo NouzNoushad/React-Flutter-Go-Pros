@@ -1,7 +1,7 @@
 import type { Course } from "../../../Lib/APINetwork/APIResponse";
-import { CoursesSearchAction } from "../../actions/CoursesSearchAction";
+import { CoursesSearchAction } from "../../actions/Courses/CoursesSearchAction";
 
-export default function MainCoursesSearch({courses}: {courses: Course[]}) {
+export default function MainCoursesSearch({ courses }: { courses: Course[] }) {
     const { setSearchQuery } = CoursesSearchAction(courses)
 
     return (

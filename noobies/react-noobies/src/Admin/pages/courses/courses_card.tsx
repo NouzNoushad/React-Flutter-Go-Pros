@@ -1,4 +1,4 @@
-import { CoursesAction } from "../../actions/CoursesAction";
+import { CoursesAction } from "../../actions/Courses/CoursesAction";
 import MainCoursesHeader from "./courses_header";
 import MainCoursesTable from "./courses_table";
 

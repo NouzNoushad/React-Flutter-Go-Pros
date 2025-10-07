@@ -1,11 +1,13 @@
+import { SetModulesAction } from "../../actions/Modules/SetModulesAction";
 import MainModulesSideAction from "./modules_side_action";
 
 export default function MainModulesTable() {
+    const { sortModules, paginatedItems } = SetModulesAction()
 
     return (
         <div className="">
             {
-                <table className='w-full border-collapse'>
+                sortModules.length !== 0 ? <table className='w-full border-collapse'>
                     <thead>
                         <tr className='border-b-[0.5px] border-dashed border-b-gray-500'>
                             <th className='min-w-[20px] text-start font-semibold text-[13px] uppercase py-4 '><span>Sl no</span></th>
@@ -18,20 +20,20 @@ export default function MainModulesTable() {
                     <tbody>
                         {/* Users */}
                         {
-                            [1, 2, 3, 4, 5, 6].map(function (mainCategory, index) {
+                            paginatedItems.map(function (module, index) {
                                 return (
                                     <tr key={index} className={`border-b-[0.5px] border-dashed border-b-gray-500`}>
                                         <td className='py-4 text-start'>
-                                            <div className='text-sm font-semibold'>{mainCategory}</div>
+                                            <div className='text-sm font-semibold'>{sortModules.indexOf(module) + 1}</div>
                                         </td>
                                         <td className='py-4 text-start px-2'>
-                                            <div className='text-sm font-normal  break-words whitespace-normal'>Title</div>
+                                            <div className='text-sm font-normal  break-words whitespace-normal'>{module.module_title}</div>
                                         </td>
                                         <td className='py-4 text-start px-2'>
-                                            <div className='text-sm font-normal  break-all whitespace-normal'>Description</div>
+                                            <div className='text-sm font-normal  break-all whitespace-normal'>{module.module_description}</div>
                                         </td>
                                         <td className='py-4 text-start px-2'>
-                                            <div className='text-sm font-normal  break-all whitespace-normal'>example.m3u8</div>
+                                            <div className='text-sm font-normal  break-all whitespace-normal'>{module.video.hls_path}</div>
                                         </td>
                                         <td className='py-4 text-center px-2 relative'>
                                             <MainModulesSideAction />
@@ -41,7 +43,7 @@ export default function MainModulesTable() {
                             })
                         }
                     </tbody>
-                </table>
+                </table> : <div className='py-5 px-5 text-center '>No Modules Found</div>
             }
         </div>
     )
