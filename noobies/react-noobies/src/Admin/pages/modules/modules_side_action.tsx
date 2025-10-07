@@ -7,8 +7,8 @@ export default function MainModulesSideAction() {
             <Menu>
                 <MenuButton className="inline-flex items-center gap-2 font-normal shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white justify-between space-x-2 px-2 py-2 rounded-md bg-gray-100 border border-gray-300 focus:outline-none text-start focus:ring-0 text-[13px] cursor-pointer">
                     Actions
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-4">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                     </svg>
 
                 </MenuButton>

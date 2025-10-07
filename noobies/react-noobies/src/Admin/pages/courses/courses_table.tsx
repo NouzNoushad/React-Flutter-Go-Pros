@@ -1,11 +1,13 @@
+import { SetCoursesAction } from "../../actions/SetCoursesAction";
 import MainCoursesSideAction from "./courses_side_action";
 
 export default function MainCoursesTable() {
+    const { sortCourses, paginatedItems } = SetCoursesAction()
 
     return (
         <div className="">
             {
-                <table className='w-full border-collapse'>
+                sortCourses.length != 0 ? <table className='w-full border-collapse'>
                     <thead>
                         <tr className='border-b-[0.5px] border-dashed border-b-gray-500'>
                             <th className='min-w-[20px] text-start font-semibold text-[13px] uppercase py-4 '><span>Sl no</span></th>
@@ -16,22 +18,21 @@ export default function MainCoursesTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* Users */}
                         {
-                            [1, 2, 3, 4, 5, 6].map(function (mainCategory, index) {
+                            paginatedItems.map(function (course, index) {
                                 return (
                                     <tr key={index} className={`border-b-[0.5px] border-dashed border-b-gray-500`}>
                                         <td className='py-4 text-start'>
-                                            <div className='text-sm font-semibold'>{mainCategory}</div>
+                                            <div className='text-sm font-semibold'>{sortCourses.indexOf(course) + 1}</div>
                                         </td>
                                         <td className='py-4 text-start px-2'>
-                                            <div className='text-sm font-normal  break-words whitespace-normal'>Title</div>
+                                            <div className='text-sm font-normal  break-words whitespace-normal'>{course.title}</div>
                                         </td>
                                         <td className='py-4 text-start px-2'>
-                                            <div className='text-sm font-normal  break-all whitespace-normal'>Description</div>
+                                            <div className='text-sm font-normal  break-all whitespace-normal'>{course.description}</div>
                                         </td>
                                         <td className='py-4 text-start px-2'>
-                                            <div className='text-sm font-normal  break-all whitespace-normal'>12</div>
+                                            <div className='text-sm font-normal  break-all whitespace-normal'>{course.modules.length}</div>
                                         </td>
                                         <td className='py-4 text-center px-2 relative'>
                                             <MainCoursesSideAction />
@@ -41,7 +42,7 @@ export default function MainCoursesTable() {
                             })
                         }
                     </tbody>
-                </table>
+                </table> : <div className='py-5 px-5 text-center '>No Courses Found</div>
             }
         </div>
     )
