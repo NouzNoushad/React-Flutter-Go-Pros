@@ -3,6 +3,7 @@ import './App.css'
 import AdminPage from './Admin/page'
 import ModulesHome from './Admin/pages/modules/modules_home'
 import AddModuleHome from './Admin/pages/add-module/add_module_home'
+import AddCourseHome from './Admin/pages/add-course/add_course_home'
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
                     <Route path="/admin" element={<AdminPage />} />
                     <Route path="/admin/modules" element={<ModulesHome />} />
                     <Route path="/admin/add-module" element={<AddModuleHome />} />
+                    <Route path="/admin/add-course" element={<AddCourseHome />} />
                 </Routes>
             </BrowserRouter>
         </>

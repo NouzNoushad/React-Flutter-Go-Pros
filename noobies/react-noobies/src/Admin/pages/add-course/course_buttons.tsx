@@ -1,14 +1,11 @@
-import { useNavigate } from "react-router-dom";
-import { useAddModuleStore } from "../../../Store/Admin/AddModuleStore";
+import { useNavigate } from "react-router-dom"
 
-export default function ModuleButtons() {
-    const { setSelectedCourse } = useAddModuleStore()
+export default function CourseButtons() {
 
     const router = useNavigate()
 
     const handleCancel = () => {
         router(-1)
-        setSelectedCourse(null)
     }
 
     return (

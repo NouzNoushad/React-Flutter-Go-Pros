@@ -1,0 +1,13 @@
+import AddCourseForm from "./course_form";
+
+export default function AddCourse() {
+    return (
+        <main className='lg:px-8 lg:py-5 px-4 py-4 flex flex-col'>
+            <div className="flex-shrink-0">
+                <h1 className='text-lg font-semibold'>Course</h1>
+                <p className='text-gray-400 text-xs font-medium'>Home - Course - Add</p>
+            </div>
+            <AddCourseForm />
+        </main>
+    )
+}

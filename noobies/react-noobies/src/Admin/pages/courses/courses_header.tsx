@@ -13,7 +13,7 @@ export default function MainCoursesHeader({ courses }: { courses: Course[] }) {
                 <MainCoursesSearch courses={courses} />
             </div>
             <div className="flex flex-col sm:flex-row w-full items-center justify-end gap-3">
-                <a href='/admin/main/main-categories/add' className='border border-reply-dark-color text-reply-color px-5 py-3 rounded-md text-sm font-normal focus:outline-none foucs:ring-0'>Add Course</a>
+                <a href='/admin/add-course' className='border border-reply-dark-color text-reply-color px-5 py-3 rounded-md text-sm font-normal focus:outline-none foucs:ring-0'>Add Course</a>
             </div>
         </div>
     )
