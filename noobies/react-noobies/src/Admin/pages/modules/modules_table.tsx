@@ -1,3 +1,4 @@
+import { getImageFilePath } from "../../../Lib/Constants";
 import { SetModulesAction } from "../../actions/Modules/SetModulesAction";
 import MainModulesSideAction from "./modules_side_action";
 
@@ -32,7 +33,7 @@ export default function MainModulesTable() {
                                             <div className='text-sm font-normal  break-all whitespace-normal'>{module.module_description}</div>
                                         </td>
                                         <td className='py-4 text-start px-2'>
-                                            <div className='text-sm font-normal  break-all whitespace-normal'>{module.video.hls_path}</div>
+                                            <div className='text-sm font-normal  break-all whitespace-normal'>{getImageFilePath(module.video.hls_path)}</div>
                                         </td>
                                         <td className='py-4 text-center px-2 relative'>
                                             <MainModulesSideAction />

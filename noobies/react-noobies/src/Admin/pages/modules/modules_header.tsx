@@ -13,7 +13,7 @@ export default function MainModulesHeader({ modules }: { modules: Module[] }) {
                 <MainModulesSearch modules={modules} />
             </div>
             <div className="flex flex-col sm:flex-row w-full items-center justify-end gap-3">
-                <a href='/admin/main/main-categories/add' className='border border-reply-dark-color text-reply-color px-5 py-3 rounded-md text-sm font-normal focus:outline-none foucs:ring-0 '>Add Module</a>
+                <a href='/admin/add-module' className='border border-reply-dark-color text-reply-color px-5 py-3 rounded-md text-sm font-normal focus:outline-none foucs:ring-0 '>Add Module</a>
             </div>
         </div>
     )
