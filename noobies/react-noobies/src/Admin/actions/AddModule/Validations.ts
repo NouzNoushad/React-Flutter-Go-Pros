@@ -6,6 +6,7 @@ export const ModuleFormValidation = z.object({
         .nonempty("Module title is required")
         .min(2, { message: "Title must be at least 2 characters long" })
         .trim(),
+    module_descripton: z.string().nullable(),
 })
 
 export type ModuleSchemaType = z.infer<typeof ModuleFormValidation>

@@ -29,7 +29,8 @@ export default function ModuleFormFields({ register, errors }: ErrorProps) {
             <div className="space-y-2">
                 <h6 className='text-[13.5px] font-medium'>Description</h6>
                 <FormTextarea
-                    placeholder='Module Description' />
+                    placeholder='Module Description'
+                    register={register('module_descripton')} />
             </div>
         </div>
     )

@@ -1,4 +1,5 @@
 export interface APIResponse {
+    message: string
     courses: Course[]
     modules: Module[]
     total: string

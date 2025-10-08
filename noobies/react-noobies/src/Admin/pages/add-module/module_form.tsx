@@ -3,8 +3,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import ModuleButtons from "./module_buttons";
 import ModuleFormFields from "./module_form_fields";
 import { ModuleFormValidation, type ModuleSchemaType } from "../../actions/AddModule/Validations";
+import { AddModuleAction } from "../../actions/AddModule/AddModuleAction";
 
 export default function AddModuleForm() {
+    const { handleFormSubmit } = AddModuleAction()
 
     const {
         register,
@@ -15,6 +17,7 @@ export default function AddModuleForm() {
     })
 
     const onSubmit = (data: ModuleSchemaType) => {
+        handleFormSubmit(data)
         console.log(data)
     }
 
