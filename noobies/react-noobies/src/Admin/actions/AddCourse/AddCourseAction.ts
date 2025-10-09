@@ -4,9 +4,11 @@ import { API_ENDPOINTS, getEndPoints } from "../../../Lib/APINetwork/EndPoints"
 import type { APIResponse } from "../../../Lib/APINetwork/APIResponse"
 import { postData } from "../../../Lib/APINetwork/BaseClients"
 import type { CourseSchemaType } from "./Validations"
+import { useNavigate } from "react-router-dom"
 
 export const AddCourseAction = () => {
     const queryClient = useQueryClient()
+    const navigate = useNavigate()
 
     const addCourseMutation = useMutation({
         mutationFn: async (formData: FormData) => {
@@ -17,9 +19,10 @@ export const AddCourseAction = () => {
         },
         onSuccess: (result: APIResponse) => {
             console.log(`message: ${result.message}`)
-            queryClient.invalidateQueries({ queryKey: ['course'] })
+            queryClient.invalidateQueries({ queryKey: ['courses'] })
 
             toast.success("Success")
+            navigate('/admin')
         },
         onError: (error) => {
             console.log(`Failed: ${error.message}`)
@@ -28,11 +31,14 @@ export const AddCourseAction = () => {
     })
 
     const handleFormSubmit = (data: CourseSchemaType) => {
-        const formData = new FormData()
         const title = data.title
         const description = data.description
 
-        console.log(`///////////// title: ${title}, desc: ${description}`)
+        const formData = new FormData()
+        formData.append("title", title)
+        formData.append("description", description ?? '')
+
+        console.log(`///////////// title: ${formData.get("title")}, desc: ${formData.get("description")}`)
 
         addCourseMutation.mutate(formData)
     }

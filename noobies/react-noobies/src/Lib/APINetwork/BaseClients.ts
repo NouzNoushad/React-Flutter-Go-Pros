@@ -9,7 +9,7 @@ export async function postData<T>(url: string, data: FormData): Promise<T> {
     console.log(`///////////////////// response: ${jsonResponse}`)
 
     if (!response.ok) {
-        throw new Error(`${jsonResponse.error} || something went wrong`)
+        throw new Error(`${jsonResponse.error}`)
     }
 
     return jsonResponse
