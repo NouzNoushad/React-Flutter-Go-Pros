@@ -1,6 +1,21 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import CustomDialog from '../../../Components/dialog_box'
+import type { Course } from '../../../Lib/APINetwork/APIResponse'
+import { CourseAction } from '../actions/CourseAction'
+import { useCoursesStore } from '../../../Store/Admin/CoursesStore'
 
-export default function MainCoursesSideAction() {
+export default function MainCoursesSideAction({ course }: { course: Course }) {
+    const { handleDeleteCourse } = CourseAction()
+    const { isOpenDeleteCourse, setIsOpenDeleteCourse } = useCoursesStore()
+
+    const handleOpenDeleteDialog = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        setIsOpenDeleteCourse(true)
+    }
+
+    const handleCancelDeleteDialog = () => {
+        setIsOpenDeleteCourse(false)
+    }
 
     return (
         <div className="">
@@ -25,9 +40,16 @@ export default function MainCoursesSideAction() {
                     </MenuItem>
                     <MenuItem>
                         <div className="">
-                            <button className="group flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs text-start transition-colors hover:bg-primary-mid-light hover:text-primary-color w-full focus:outline-none focus:ring-0 cursor-pointer">
+                            <button onClick={handleOpenDeleteDialog} className="group flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs text-start transition-colors hover:bg-primary-mid-light hover:text-primary-color w-full focus:outline-none focus:ring-0 cursor-pointer">
                                 Delete
                             </button>
+                            <CustomDialog
+                                isOpen={isOpenDeleteCourse}
+                                onClose={handleCancelDeleteDialog}
+                                onConfirm={() => handleDeleteCourse(course.id)}
+                                title="Delete course"
+                                description="Are you sure you want to delete course? This action cannot be undone."
+                            />
                         </div>
                     </MenuItem>
                 </MenuItems>

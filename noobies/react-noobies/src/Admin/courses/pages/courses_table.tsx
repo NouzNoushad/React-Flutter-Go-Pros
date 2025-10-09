@@ -35,7 +35,7 @@ export default function MainCoursesTable() {
                                             <div className='text-sm font-normal  break-all whitespace-normal'>{course.modules.length}</div>
                                         </td>
                                         <td className='py-4 text-center px-2 relative'>
-                                            <MainCoursesSideAction />
+                                            <MainCoursesSideAction course={course} />
                                         </td>
                                     </tr>
                                 );
