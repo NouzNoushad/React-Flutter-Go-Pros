@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import AdminPage from './Admin/page'
-import ModulesHome from './Admin/pages/modules/modules_home'
-import AddModuleHome from './Admin/pages/add-module/add_module_home'
-import AddCourseHome from './Admin/pages/add-course/add_course_home'
+import ModulesHome from './Admin/modules/modules_home'
+import AddModuleHome from './Admin/add-module/add_module_home'
+import AddCourseHome from './Admin/add-course/add_course_home'
 
 function App() {
     return (

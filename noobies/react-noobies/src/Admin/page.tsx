@@ -1,4 +1,4 @@
-import CoursesHome from "./pages/courses/courses_home";
+import CoursesHome from "./courses/courses_home";
 
 export default function AdminPage() {
     return (

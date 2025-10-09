@@ -1,0 +1,15 @@
+import MainFooter from "../footer";
+import MainHeader from "../header";
+import MainCourses from "./pages/courses";
+
+export default function CoursesHome() {
+    return (
+        <div className="w-full flex-1 h-full overflow-x-hidden overflow-y-auto min-h-screen flex flex-col">
+            <MainHeader />
+            <div className="flex-1">
+                <MainCourses />
+            </div>
+            <MainFooter />
+        </div>
+    )
+}
