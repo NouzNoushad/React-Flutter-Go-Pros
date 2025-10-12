@@ -23,7 +23,7 @@ export default function Courses() {
 
     return (
         <div className="flex-1 my-[4rem] container-md w-full">
-            <div className="mt-2 grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-3">
+            <div className="mt-2 grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3">
                 {
                     coursesData.courses.map((course) => (
                         <a href={`/video-item/${course.id}`} className="border-2 border-black rounded-lg shadow bg-amber-50 px-3 py-3 cursor-pointer" key={course.id}>
