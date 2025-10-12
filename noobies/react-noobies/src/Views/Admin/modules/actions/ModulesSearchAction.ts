@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect } from "react"
 import { debounce } from "lodash"
-import type { Module } from "../../../Lib/APINetwork/APIResponse"
-import { PaginationLimit } from "../../../Lib/Constants"
-import { useModulesStore } from "../../../Store/Admin/ModuleStore"
+import type { Module } from "../../../../Lib/APINetwork/APIResponse"
+import { useModulesStore } from "../../../../Store/Admin/ModuleStore"
+import { PaginationLimit } from "../../../../Lib/Constants"
 
 export const ModulesSearchAction = (originalModules: Module[]) => {
 

@@ -1,7 +1,7 @@
-import FormInputField from "../../../Components/form_input_field";
 import type { FieldErrors, UseFormRegister } from 'react-hook-form'
-import FormTextarea from "../../../Components/form_textarea";
 import type { CourseSchemaType } from "../actions/Validations";
+import FormInputField from '../../../../Components/form_input_field';
+import FormTextarea from '../../../../Components/form_textarea';
 
 type ErrorProps = {
     register: UseFormRegister<CourseSchemaType>

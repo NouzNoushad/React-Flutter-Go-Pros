@@ -1,4 +1,4 @@
-import type { Module } from "../../../Lib/APINetwork/APIResponse";
+import type { Module } from "../../../../Lib/APINetwork/APIResponse";
 import MainModulesSearch from "./modules_search";
 
 export default function MainModulesHeader({ modules }: { modules: Module[] }) {

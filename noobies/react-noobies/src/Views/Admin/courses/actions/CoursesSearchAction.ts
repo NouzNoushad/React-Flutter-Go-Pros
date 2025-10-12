@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect } from "react"
 import { debounce } from "lodash"
-import type { Course } from "../../../Lib/APINetwork/APIResponse"
-import { PaginationLimit } from "../../../Lib/Constants"
-import { useCoursesStore } from "../../../Store/Admin/CoursesStore"
+import type { Course } from "../../../../Lib/APINetwork/APIResponse"
+import { useCoursesStore } from "../../../../Store/Admin/CoursesStore"
+import { PaginationLimit } from "../../../../Lib/Constants"
 
 export const CoursesSearchAction = (originalCourses: Course[]) => {
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { CoursesAction } from '../../courses/actions/CoursesAction';
-import { useAddModuleStore } from '../../../Store/Admin/AddModuleStore';
 import { ChevronDownIcon } from 'lucide-react'
+import { useAddModuleStore } from '../../../../Store/Admin/AddModuleStore';
 
 export default function SelectCourse() {
     const { coursesData } = CoursesAction()

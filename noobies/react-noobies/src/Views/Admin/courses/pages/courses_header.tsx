@@ -1,4 +1,4 @@
-import type { Course } from "../../../Lib/APINetwork/APIResponse";
+import type { Course } from "../../../../Lib/APINetwork/APIResponse";
 import MainCoursesSearch from "./courses_search";
 
 export default function MainCoursesHeader({ courses }: { courses: Course[] }) {

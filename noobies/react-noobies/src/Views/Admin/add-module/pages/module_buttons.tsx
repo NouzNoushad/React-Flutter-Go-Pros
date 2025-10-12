@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useAddModuleStore } from "../../../Store/Admin/AddModuleStore";
+import { useAddModuleStore } from "../../../../Store/Admin/AddModuleStore";
 
 export default function ModuleButtons() {
     const { setSelectedCourse } = useAddModuleStore()

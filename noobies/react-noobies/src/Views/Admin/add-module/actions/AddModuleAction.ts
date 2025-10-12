@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
-import { useAddModuleStore } from "../../../Store/Admin/AddModuleStore"
-import { API_ENDPOINTS, getEndPoints } from "../../../Lib/APINetwork/EndPoints"
-import type { APIResponse } from "../../../Lib/APINetwork/APIResponse"
-import { postData } from "../../../Lib/APINetwork/BaseClients"
 import type { ModuleSchemaType } from "./Validations"
 import { useNavigate } from "react-router-dom"
+import { useAddModuleStore } from "../../../../Store/Admin/AddModuleStore"
+import { API_ENDPOINTS, getEndPoints } from "../../../../Lib/APINetwork/EndPoints"
+import { postData } from "../../../../Lib/APINetwork/BaseClients"
+import type { APIResponse } from "../../../../Lib/APINetwork/APIResponse"
 
 export const AddModuleAction = () => {
     const { videoFile, selectedCourse, setVideoFile, setSelectedCourse } = useAddModuleStore()

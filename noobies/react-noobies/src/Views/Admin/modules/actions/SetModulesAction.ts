@@ -1,4 +1,4 @@
-import { useModulesStore } from "../../../Store/Admin/ModuleStore"
+import { useModulesStore } from "../../../../Store/Admin/ModuleStore"
 
 export const SetModulesAction = () => {
     const { currentPage, limit, modules } = useModulesStore()

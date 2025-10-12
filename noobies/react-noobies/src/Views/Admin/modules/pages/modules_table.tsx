@@ -1,4 +1,4 @@
-import { getImageFilePath } from "../../../Lib/Constants";
+import { getImageFilePath } from "../../../../Lib/Constants";
 import { SetModulesAction } from "../actions/SetModulesAction";
 import MainModulesSideAction from "./modules_side_action";
 

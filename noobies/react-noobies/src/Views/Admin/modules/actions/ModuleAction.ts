@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
-import { API_ENDPOINTS, getEndPoints } from "../../../Lib/APINetwork/EndPoints"
-import { deleteData } from "../../../Lib/APINetwork/BaseClients"
-import type { APIResponse } from "../../../Lib/APINetwork/APIResponse"
+import { API_ENDPOINTS, getEndPoints } from "../../../../Lib/APINetwork/EndPoints"
+import { deleteData } from "../../../../Lib/APINetwork/BaseClients"
+import type { APIResponse } from "../../../../Lib/APINetwork/APIResponse"
 
 export const ModuleAction = () => {
 

@@ -1,4 +1,4 @@
-import { useAddModuleStore } from "../../../Store/Admin/AddModuleStore"
+import { useAddModuleStore } from "../../../../Store/Admin/AddModuleStore"
 
 export default function ModuleVideo() {
     const { videoFile, setVideoFile } = useAddModuleStore()

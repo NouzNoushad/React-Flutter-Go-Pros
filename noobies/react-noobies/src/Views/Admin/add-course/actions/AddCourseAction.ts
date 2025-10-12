@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
-import { API_ENDPOINTS, getEndPoints } from "../../../Lib/APINetwork/EndPoints"
-import type { APIResponse } from "../../../Lib/APINetwork/APIResponse"
-import { postData } from "../../../Lib/APINetwork/BaseClients"
 import type { CourseSchemaType } from "./Validations"
 import { useNavigate } from "react-router-dom"
+import { API_ENDPOINTS, getEndPoints } from "../../../../Lib/APINetwork/EndPoints"
+import { postData } from "../../../../Lib/APINetwork/BaseClients"
+import type { APIResponse } from "../../../../Lib/APINetwork/APIResponse"
 
 export const AddCourseAction = () => {
     const queryClient = useQueryClient()

@@ -1,4 +1,4 @@
-import { useCoursesStore } from "../../../Store/Admin/CoursesStore"
+import { useCoursesStore } from "../../../../Store/Admin/CoursesStore"
 
 export const SetCoursesAction = () => {
     const { currentPage, limit, courses } = useCoursesStore()

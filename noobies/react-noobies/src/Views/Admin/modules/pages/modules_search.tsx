@@ -1,4 +1,4 @@
-import type { Module } from "../../../Lib/APINetwork/APIResponse";
+import type { Module } from "../../../../Lib/APINetwork/APIResponse";
 import { ModulesSearchAction } from "../actions/ModulesSearchAction";
 
 export default function MainModulesSearch({ modules }: { modules: Module[] }) {

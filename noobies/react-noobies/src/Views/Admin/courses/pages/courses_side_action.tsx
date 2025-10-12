@@ -1,8 +1,8 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import CustomDialog from '../../../Components/dialog_box'
-import type { Course } from '../../../Lib/APINetwork/APIResponse'
+import type { Course } from '../../../../Lib/APINetwork/APIResponse'
+import { useCoursesStore } from '../../../../Store/Admin/CoursesStore'
 import { CourseAction } from '../actions/CourseAction'
-import { useCoursesStore } from '../../../Store/Admin/CoursesStore'
+import CustomDialog from '../../../../Components/dialog_box'
 
 export default function MainCoursesSideAction({ course }: { course: Course }) {
     const { handleDeleteCourse } = CourseAction()

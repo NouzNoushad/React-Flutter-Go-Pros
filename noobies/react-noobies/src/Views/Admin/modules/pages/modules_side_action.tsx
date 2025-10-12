@@ -1,8 +1,8 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import CustomDialog from '../../../Components/dialog_box'
-import type { Module } from '../../../Lib/APINetwork/APIResponse'
+import type { Module } from '../../../../Lib/APINetwork/APIResponse'
+import { useModulesStore } from '../../../../Store/Admin/ModuleStore'
 import { ModuleAction } from '../actions/ModuleAction'
-import { useModulesStore } from '../../../Store/Admin/ModuleStore'
+import CustomDialog from '../../../../Components/dialog_box'
 
 export default function MainModulesSideAction({ module }: { module: Module }) {
     const { handleDeleteModule } = ModuleAction()

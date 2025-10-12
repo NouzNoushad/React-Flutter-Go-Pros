@@ -1,9 +1,9 @@
-import FormInputField from "../../../Components/form_input_field";
 import type { FieldErrors, UseFormRegister } from 'react-hook-form'
 import type { ModuleSchemaType } from "../actions/Validations";
-import FormTextarea from "../../../Components/form_textarea";
 import SelectCourse from "./select_course";
 import ModuleVideo from "./module_video";
+import FormInputField from '../../../../Components/form_input_field';
+import FormTextarea from '../../../../Components/form_textarea';
 
 type ErrorProps = {
     register: UseFormRegister<ModuleSchemaType>
