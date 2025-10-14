@@ -34,9 +34,11 @@ func isValidPassword(password string) bool {
 	return hasSpecialChar
 }
 
-func UserValidations(user *models.User, password string) error {
-	if user.Username == "" {
-		return validationError("Username is required")
+func UserValidations(user *models.User, password string, isRegister bool) error {
+	if isRegister {
+		if user.Username == "" {
+			return validationError("Username is required")
+		}
 	}
 
 	if user.Email == "" {
@@ -51,4 +53,12 @@ func UserValidations(user *models.User, password string) error {
 		return validationError("Password must be at least 8 characters long, contain at least one uppercase letter, one number and one special character")
 	}
 	return nil
+}
+
+func ValidateRegister(user *models.User, password string) error {
+	return UserValidations(user, password, true)
+}
+
+func ValidateLogin(user *models.User, password string) error {
+	return UserValidations(user, password, false)
 }

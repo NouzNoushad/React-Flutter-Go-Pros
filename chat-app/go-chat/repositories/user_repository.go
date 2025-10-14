@@ -24,3 +24,10 @@ func (s *PostgresStore) UpdateRefreshToken(userID string, refreshToken string) e
 		"updated_at":    time.Now(),
 	}).Error
 }
+
+// get user by email
+func (s *PostgresStore) GetUserByEmail(email string) (*models.User, error) {
+	var user models.User
+	err := s.db.Where("email = ?", email).First(&user).Error
+	return &user, err
+}

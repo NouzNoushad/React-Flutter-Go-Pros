@@ -17,6 +17,7 @@ type Storage interface {
 	Register(user *models.User) error
 	IsEmailExists(email string) (bool, error)
 	UpdateRefreshToken(userID string, refreshToken string) error
+	GetUserByEmail(email string) (*models.User, error)
 }
 
 type PostgresStore struct {
