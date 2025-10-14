@@ -37,8 +37,9 @@ func (s *APIServer) createTokens(user *models.User) (string, string, error) {
 	}
 
 	// update refresh token
-	hashRefreshToken := utils.HashCredential(refreshToken)
-	if err := s.storage.UpdateRefreshToken(user.ID, hashRefreshToken); err != nil {
+	hashedRefreshToken := utils.HashRefreshToken(refreshToken)
+
+	if err := s.storage.UpdateRefreshToken(user.ID, hashedRefreshToken); err != nil {
 		return "", "", fmt.Errorf("failed to update refresh token: %w", err)
 	}
 
@@ -132,6 +133,66 @@ func (s *APIServer) HandleLoginUser(c *gin.Context) {
 	c.JSON(http.StatusOK, RegisterResponse{
 		Status:  "success",
 		Message: "Login success",
+		User: UserResponse{
+			ID:    user.ID,
+			Name:  user.Username,
+			Email: user.Email,
+		},
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+	})
+}
+
+// is valid refresh token
+func (s *APIServer) isValidRefreshToken(user *models.User, refreshToken string) (bool, error) {
+	if user.RefreshToken == "" {
+		return false, nil
+	}
+
+	if !utils.CompareRefreshToken(user.RefreshToken, refreshToken) {
+		return false, nil
+	}
+
+	return true, nil
+}
+
+// refresh token
+func (s *APIServer) HandleRefreshToken(c *gin.Context) {
+	refreshToken := c.PostForm("refresh_token")
+
+	claims, err := utils.VerifyJWT(refreshToken)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid refresh token"})
+		return
+	}
+
+	userID, ok := claims["user_id"].(string)
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token payload"})
+		return
+	}
+
+	user, err := s.storage.GetUserByID(userID)
+	if err != nil || user == nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not found"})
+		return
+	}
+
+	isValid, err := s.isValidRefreshToken(user, refreshToken)
+	if err != nil || !isValid {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Refresh token expired or invalid"})
+		return
+	}
+
+	accessToken, refreshToken, err := s.createTokens(user)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, RegisterResponse{
+		Status:  "success",
+		Message: "Token refreshed",
 		User: UserResponse{
 			ID:    user.ID,
 			Name:  user.Username,

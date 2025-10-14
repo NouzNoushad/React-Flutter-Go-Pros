@@ -17,6 +17,7 @@ func Router(store repositories.Storage, hub *controllers.Hub) http.Handler {
 	router.GET("/messages/:room", r.HandleGetMessages)
 	router.POST("/register", r.HandleRegisterUser)
 	router.POST("/login", r.HandleLoginUser)
+	router.POST("/refresh", r.HandleRefreshToken)
 
 	// websocket
 	router.GET("/ws", func(c *gin.Context) {

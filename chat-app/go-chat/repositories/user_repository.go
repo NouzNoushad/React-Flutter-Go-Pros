@@ -31,3 +31,10 @@ func (s *PostgresStore) GetUserByEmail(email string) (*models.User, error) {
 	err := s.db.Where("email = ?", email).First(&user).Error
 	return &user, err
 }
+
+// get user by id
+func (s *PostgresStore) GetUserByID(id string) (*models.User, error) {
+	var user models.User
+	err := s.db.Where("id = ?", id).First(&user).Error
+	return &user, err
+}
