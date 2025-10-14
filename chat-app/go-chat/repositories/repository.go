@@ -15,6 +15,8 @@ type Storage interface {
 
 	// User
 	Register(user *models.User) error
+	IsEmailExists(email string) (bool, error)
+	UpdateRefreshToken(userID string, refreshToken string) error
 }
 
 type PostgresStore struct {
@@ -23,6 +25,7 @@ type PostgresStore struct {
 
 func NewPostgresStore(db *gorm.DB) *PostgresStore {
 	db.AutoMigrate(&models.Message{})
+	db.AutoMigrate(&models.User{})
 
 	return &PostgresStore{db: db}
 }

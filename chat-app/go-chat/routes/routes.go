@@ -11,10 +11,11 @@ import (
 func Router(store repositories.Storage, hub *controllers.Hub) http.Handler {
 
 	router := gin.Default()
-	
+
 	// api
 	r := controllers.NewAPIServer(store)
 	router.GET("/messages/:room", r.HandleGetMessages)
+	router.POST("/register", r.HandleRegisterUser)
 
 	// websocket
 	router.GET("/ws", func(c *gin.Context) {

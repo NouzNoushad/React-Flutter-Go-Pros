@@ -1,8 +1,26 @@
 package repositories
 
-import "go-chat/models"
+import (
+	"go-chat/models"
+	"time"
+)
 
 // create user
 func (s *PostgresStore) Register(user *models.User) error {
 	return s.db.Create(user).Error
+}
+
+// check email exists
+func (s *PostgresStore) IsEmailExists(email string) (bool, error) {
+	var count int64
+	err := s.db.Model(&models.User{}).Where("email = ?", email).Count(&count).Error
+	return count > 0, err
+}
+
+// update refresh tokne
+func (s *PostgresStore) UpdateRefreshToken(userID string, refreshToken string) error {
+	return s.db.Model(&models.User{}).Where("id = ?", userID).Updates(map[string]interface{}{
+		"refresh_token": refreshToken,
+		"updated_at":    time.Now(),
+	}).Error
 }
