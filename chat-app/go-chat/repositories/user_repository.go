@@ -38,3 +38,10 @@ func (s *PostgresStore) GetUserByID(id string) (*models.User, error) {
 	err := s.db.Where("id = ?", id).First(&user).Error
 	return &user, err
 }
+
+// get users
+func (s *PostgresStore) GetUsers() (*[]models.User, error) {
+	var users []models.User
+	err := s.db.Order("created_at DESC").Find(&users).Error
+	return &users, err
+}

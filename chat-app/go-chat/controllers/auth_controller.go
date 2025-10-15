@@ -11,20 +11,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type UserResponse struct {
-	ID    string `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
-}
-
-type RegisterResponse struct {
-	Status       string       `json:"status"`
-	Message      string       `json:"message"`
-	User         UserResponse `json:"user"`
-	AccessToken  string       `json:"access_token"`
-	RefreshToken string       `json:"refresh_token"`
-}
-
 // create tokens
 func (s *APIServer) createTokens(user *models.User) (string, string, error) {
 	accessToken, err := utils.CreateJWT(user, 1*time.Hour) // 1 hr
@@ -56,17 +42,17 @@ func (s *APIServer) HandleRegisterUser(c *gin.Context) {
 
 	// validations
 	if err := utils.ValidateRegister(user, password); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, ErrorResponse{Status: "failed", Message: err.Error()})
 		return
 	}
 
 	emailExists, err := s.storage.IsEmailExists(user.Email)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Server error"})
+		c.JSON(http.StatusInternalServerError, ErrorResponse{Status: "failed", Message: "Server error"})
 		return
 	}
 	if emailExists {
-		c.JSON(http.StatusConflict, gin.H{"error": "Email already exists"})
+		c.JSON(http.StatusConflict, ErrorResponse{Status: "failed", Message: "Email already exists"})
 		return
 	}
 
@@ -76,13 +62,13 @@ func (s *APIServer) HandleRegisterUser(c *gin.Context) {
 
 	// save user
 	if err := s.storage.Register(user); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, ErrorResponse{Status: "failed", Message: err.Error()})
 		return
 	}
 
 	accessToken, refreshToken, err := s.createTokens(user)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, ErrorResponse{Status: "failed", Message: err.Error()})
 		return
 	}
 
@@ -108,25 +94,25 @@ func (s *APIServer) HandleLoginUser(c *gin.Context) {
 
 	// validations
 	if err := utils.ValidateLogin(user, password); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, ErrorResponse{Status: "failed", Message: err.Error()})
 		return
 	}
 
 	user, err := s.storage.GetUserByEmail(user.Email)
 	if err != nil || user == nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentails"})
+		c.JSON(http.StatusUnauthorized, ErrorResponse{Status: "failed", Message: "Invalid credentails"})
 		return
 	}
 
 	// validate password
 	if !utils.ValidateCredential(user.Password, password) {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentails"})
+		c.JSON(http.StatusUnauthorized, ErrorResponse{Status: "failed", Message: "Invalid credentails"})
 		return
 	}
 
 	accessToken, refreshToken, err := s.createTokens(user)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, ErrorResponse{Status: "failed", Message: err.Error()})
 		return
 	}
 
@@ -162,42 +148,37 @@ func (s *APIServer) HandleRefreshToken(c *gin.Context) {
 
 	claims, err := utils.VerifyJWT(refreshToken)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid refresh token"})
+		c.JSON(http.StatusUnauthorized, ErrorResponse{Status: "failed", Message: "Invalid refresh token"})
 		return
 	}
 
 	userID, ok := claims["user_id"].(string)
 	if !ok {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token payload"})
+		c.JSON(http.StatusUnauthorized, ErrorResponse{Status: "failed", Message: "Invalid token payload"})
 		return
 	}
 
 	user, err := s.storage.GetUserByID(userID)
 	if err != nil || user == nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not found"})
+		c.JSON(http.StatusUnauthorized, ErrorResponse{Status: "failed", Message: "User not found"})
 		return
 	}
 
 	isValid, err := s.isValidRefreshToken(user, refreshToken)
 	if err != nil || !isValid {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Refresh token expired or invalid"})
+		c.JSON(http.StatusUnauthorized, ErrorResponse{Status: "failed", Message: "Refresh token expired or invalid"})
 		return
 	}
 
 	accessToken, refreshToken, err := s.createTokens(user)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, ErrorResponse{Status: "failed", Message: err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, RegisterResponse{
-		Status:  "success",
-		Message: "Token refreshed",
-		User: UserResponse{
-			ID:    user.ID,
-			Name:  user.Username,
-			Email: user.Email,
-		},
+	c.JSON(http.StatusOK, RefreshTokenResponse{
+		Status:       "success",
+		Message:      "Token refreshed",
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 	})

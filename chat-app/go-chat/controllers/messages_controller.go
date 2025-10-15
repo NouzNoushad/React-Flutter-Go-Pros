@@ -11,7 +11,7 @@ func (s *APIServer) HandleGetMessages(c *gin.Context) {
 
 	messages, err := s.storage.GetMessages(room, 50)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, ErrorResponse{Status: "failed", Message: err.Error()})
 		return
 	}
 
