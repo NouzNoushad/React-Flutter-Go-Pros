@@ -1,6 +1,9 @@
 package controllers
 
-import "go-chat/repositories"
+import (
+	"go-chat/repositories"
+	"time"
+)
 
 type APIServer struct {
 	storage repositories.Storage
@@ -77,4 +80,19 @@ type UserByIDResponse struct {
 type CommonResponse struct {
 	Status  string `json:"status"`
 	Message string `json:"message"`
+}
+
+type Message struct {
+	ID             string    `json:"id"`
+	Type           string    `json:"type"`
+	Sender         string    `json:"sender"`
+	Room           string    `json:"room"`
+	Content        string    `json:"content"`
+	ReplyToMessage string    `json:"reply_to_message"`
+	CreatedAt      time.Time `json:"created_at"`
+}
+
+type MessagesResponse struct {
+	Status   string    `json:"status"`
+	Messages []Message `json:"messages"`
 }

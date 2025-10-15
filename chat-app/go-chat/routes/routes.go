@@ -15,8 +15,6 @@ func Router(store repositories.Storage, hub *controllers.Hub) http.Handler {
 	r := controllers.NewAPIServer(store)
 	authMiddleware := middlewares.AuthMiddleware(store)
 
-	// messages
-	router.GET("/messages/:room", r.HandleGetMessages)
 	// auth
 	router.POST("/register", r.HandleRegisterUser)
 	router.POST("/login", r.HandleLoginUser)
@@ -25,9 +23,10 @@ func Router(store repositories.Storage, hub *controllers.Hub) http.Handler {
 	router.GET("/users", r.HandleGetUsers)
 	router.GET("/user/:id", r.HandleGetUserByID)
 	router.DELETE("/user/:id", authMiddleware, r.HandleDeleteUser)
-
+	// messages
+	router.GET("/messages/:room", authMiddleware, r.HandleGetMessages)
 	// websocket
-	router.GET("/ws", func(c *gin.Context) {
+	router.GET("/ws", authMiddleware, func(c *gin.Context) {
 		controllers.ServeWS(hub, c.Writer, c.Request)
 	})
 
