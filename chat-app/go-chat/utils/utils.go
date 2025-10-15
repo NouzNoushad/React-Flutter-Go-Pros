@@ -59,15 +59,18 @@ func CreateJWT(user *models.User, duration time.Duration) (string, error) {
 	return token.SignedString([]byte(secret))
 }
 
-func VerifyJWT(tokenString string) (jwt.MapClaims, error) {
+func ValidateJWT(tokenString string) (*jwt.Token, error) {
 	secret := os.Getenv("JWT_SECRET")
-	token, err := jwt.Parse(tokenString, func(t *jwt.Token) (interface{}, error) {
+	return jwt.Parse(tokenString, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", t.Header["alg"])
 		}
 		return []byte(secret), nil
 	})
+}
 
+func VerifyJWT(tokenString string) (jwt.MapClaims, error) {
+	token, err := ValidateJWT(tokenString)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse token: %w", err)
 	}

@@ -2,6 +2,7 @@ package routes
 
 import (
 	"go-chat/controllers"
+	"go-chat/middlewares"
 	"go-chat/repositories"
 	"net/http"
 
@@ -12,6 +13,7 @@ func Router(store repositories.Storage, hub *controllers.Hub) http.Handler {
 
 	router := gin.Default()
 	r := controllers.NewAPIServer(store)
+	authMiddleware := middlewares.AuthMiddleware(store)
 
 	// messages
 	router.GET("/messages/:room", r.HandleGetMessages)
@@ -22,7 +24,7 @@ func Router(store repositories.Storage, hub *controllers.Hub) http.Handler {
 	// users
 	router.GET("/users", r.HandleGetUsers)
 	router.GET("/user/:id", r.HandleGetUserByID)
-	router.DELETE("/user/:id", r.HandleDeleteUser)
+	router.DELETE("/user/:id", authMiddleware, r.HandleDeleteUser)
 
 	// websocket
 	router.GET("/ws", func(c *gin.Context) {
