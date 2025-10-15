@@ -62,3 +62,30 @@ func (s *APIServer) HandleGetUserByID(c *gin.Context) {
 		},
 	})
 }
+
+// delete user
+func (s *APIServer) HandleDeleteUser(c *gin.Context) {
+	id := c.Param("id")
+
+	user, err := s.storage.GetUserByID(id)
+	if err != nil || user == nil {
+		c.JSON(http.StatusUnauthorized, ErrorResponse{
+			Status:  "failed",
+			Message: "User not found",
+		})
+		return
+	}
+
+	if err := s.storage.DeleteUser(user.ID); err != nil {
+		c.JSON(http.StatusInternalServerError, ErrorResponse{
+			Status:  "failed",
+			Message: err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, CommonResponse{
+		Status:  "success",
+		Message: "User removed",
+	})
+}

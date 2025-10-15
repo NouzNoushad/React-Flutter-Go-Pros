@@ -22,6 +22,7 @@ func Router(store repositories.Storage, hub *controllers.Hub) http.Handler {
 	// users
 	router.GET("/users", r.HandleGetUsers)
 	router.GET("/user/:id", r.HandleGetUserByID)
+	router.DELETE("/user/:id", r.HandleDeleteUser)
 
 	// websocket
 	router.GET("/ws", func(c *gin.Context) {

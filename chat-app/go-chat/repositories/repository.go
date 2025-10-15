@@ -20,6 +20,7 @@ type Storage interface {
 	GetUserByEmail(email string) (*models.User, error)
 	GetUserByID(id string) (*models.User, error)
 	GetUsers() (*[]models.User, error)
+	DeleteUser(id string) error
 }
 
 type PostgresStore struct {

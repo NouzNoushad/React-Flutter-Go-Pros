@@ -48,3 +48,8 @@ type UserByIDResponse struct {
 	Status string       `json:"status"`
 	User   UserResponse `json:"user"`
 }
+
+type CommonResponse struct {
+	Status  string `json:"status"`
+	Message string `json:"message"`
+}

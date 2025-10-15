@@ -45,3 +45,8 @@ func (s *PostgresStore) GetUsers() (*[]models.User, error) {
 	err := s.db.Order("created_at DESC").Find(&users).Error
 	return &users, err
 }
+
+// delete user
+func (s *PostgresStore) DeleteUser(id string) error {
+	return s.db.Where("id = ?", id).Delete(&models.User{}).Error
+}
