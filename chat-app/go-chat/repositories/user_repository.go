@@ -19,9 +19,9 @@ func (s *PostgresStore) IsEmailExists(email string) (bool, error) {
 
 // update refresh tokne
 func (s *PostgresStore) UpdateRefreshToken(userID string, refreshToken string) error {
-	return s.db.Model(&models.User{}).Where("id = ?", userID).Updates(map[string]interface{}{
-		"refresh_token": refreshToken,
-		"updated_at":    time.Now(),
+	return s.db.Model(&models.User{}).Where("id = ?", userID).Updates(UpdateRefreshTokenRequest{
+		RefreshToken: refreshToken,
+		UpdatedAt:    time.Now(),
 	}).Error
 }
 
@@ -40,10 +40,29 @@ func (s *PostgresStore) GetUserByID(id string) (*models.User, error) {
 }
 
 // get users
-func (s *PostgresStore) GetUsers() (*[]models.User, error) {
+func (s *PostgresStore) GetUsers(search string, page, limit int) (*[]models.User, int64, error) {
 	var users []models.User
-	err := s.db.Order("created_at DESC").Find(&users).Error
-	return &users, err
+	var total int64
+
+	query := s.db.Model(&models.User{})
+
+	// search
+	if search != "" {
+		searchTerm := "%" + search + "%"
+		query = query.Where("username ILIKE ? OR email ILIKE ?", searchTerm, searchTerm)
+	}
+
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	offset := (page - 1) * limit
+	err := query.Order("created_at DESC").Offset(offset).Limit(limit).Find(&users).Error
+	if err != nil {
+		return nil, 0, err
+	}
+
+	return &users, total, err
 }
 
 // delete user

@@ -12,6 +12,11 @@ func NewAPIServer(storage repositories.Storage) *APIServer {
 	}
 }
 
+const (
+	Success string = "success"
+	Failed  string = "failed"
+)
+
 type ErrorResponse struct {
 	Status  string `json:"status"`
 	Message string `json:"message"`
@@ -38,10 +43,30 @@ type RefreshTokenResponse struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
+type PaginationLink struct {
+	URL    *string `json:"url"`
+	Label  string  `json:"label"`
+	Active bool    `json:"active"`
+}
+
+type PaginatedUsers struct {
+	CurrentPage  int              `json:"current_page"`
+	Data         []UserResponse   `json:"data"`
+	Path         string           `json:"path"`
+	Total        int64            `json:"total"`
+	From         *int             `json:"from"`
+	To           *int             `json:"to"`
+	LastPage     int              `json:"last_page"`
+	FirstPageURL string           `json:"first_page_url"`
+	LastPageURL  string           `json:"last_page_url"`
+	PrevPageURL  *string          `json:"prev_page_url"`
+	NextPageURL  *string          `json:"next_page_url"`
+	Links        []PaginationLink `json:"links"`
+}
+
 type UsersResponse struct {
 	Status string         `json:"status"`
-	Users  []UserResponse `json:"users"`
-	Total  string         `json:"total"`
+	Users  PaginatedUsers `json:"users"`
 }
 
 type UserByIDResponse struct {

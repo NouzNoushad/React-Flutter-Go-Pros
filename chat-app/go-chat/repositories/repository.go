@@ -3,6 +3,7 @@ package repositories
 import (
 	"context"
 	"go-chat/models"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -19,7 +20,7 @@ type Storage interface {
 	UpdateRefreshToken(userID string, refreshToken string) error
 	GetUserByEmail(email string) (*models.User, error)
 	GetUserByID(id string) (*models.User, error)
-	GetUsers() (*[]models.User, error)
+	GetUsers(search string, page, limit int) (*[]models.User, int64, error)
 	DeleteUser(id string) error
 }
 
@@ -32,4 +33,9 @@ func NewPostgresStore(db *gorm.DB) *PostgresStore {
 	db.AutoMigrate(&models.User{})
 
 	return &PostgresStore{db: db}
+}
+
+type UpdateRefreshTokenRequest struct {
+	RefreshToken string    `json:"refresh_token"`
+	UpdatedAt    time.Time `json:"updated_at"`
 }
