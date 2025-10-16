@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_chat/core/api/end_points.dart';
-import 'package:flutter_chat/core/app_data/app_data.dart';
-import 'package:flutter_chat/core/model/auth_model.dart';
-import 'package:flutter_chat/core/utils/app_keys.dart';
-import 'package:flutter_chat/core/utils/constants.dart';
-import 'package:flutter_chat/core/utils/enums.dart';
+
+import '../app_data/app_data.dart';
+import '../model/auth_model.dart';
+import '../utils/app_constants.dart';
+import '../utils/app_enums.dart';
+import '../utils/app_keys.dart';
+import '../utils/app_logger.dart';
+import 'end_points.dart';
 
 class DioClient {
   static final DioClient _instance = DioClient._internal();
@@ -12,6 +14,7 @@ class DioClient {
   DioClient._internal();
 
   Dio? _dio;
+  final AppLogger _logger = AppLogger();
 
   Future<Dio> getDio({String? contentType, String? token}) async {
     if (_dio != null && contentType != "multipart/form-data") {
@@ -26,36 +29,36 @@ class DioClient {
           "Authorization": "Bearer $token",
           "Content-Type": contentType ?? "application/json",
         },
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 15),
+        connectTimeout: const Duration(seconds: AppConstants.connectTimeout),
+        receiveTimeout: const Duration(seconds: AppConstants.receiveTimeout),
       ),
     );
 
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          logger("API request: ${options.method} ${options.uri}");
-          logger("Headers: ${options.headers}");
+          _logger.log("API request: ${options.method} ${options.uri}");
+          _logger.log("Headers: ${options.headers}");
           return handler.next(options);
         },
         onResponse: (response, handler) {
-          logger(
+          _logger.log(
             "API response: ${response.statusCode} ${response.requestOptions.uri}",
           );
           return handler.next(response);
         },
         onError: (error, handler) async {
-          logger(
+          _logger.log(
             "API error: ${error.response?.statusCode} ${error.requestOptions.uri}",
           );
 
           // refresh
           if (error.response?.statusCode == 401) {
-            logger("Token refresh");
+            _logger.log("Token refresh");
             final refresh = await _refreshToken();
 
             if (refresh) {
-              logger("Token refreshed, retrying...");
+              _logger.log("Token refreshed, retrying...");
               final newToken = await AppData.instance.token;
               final request = await _retryRequest(
                 dio: dio,
@@ -64,7 +67,7 @@ class DioClient {
               );
               return handler.resolve(request);
             } else {
-              logger('Refresh token failed');
+              _logger.log('Refresh token failed');
             }
           }
           return handler.next(error);
@@ -88,12 +91,12 @@ class DioClient {
             "Accept": "application/json",
             "Authorization": "Bearer $token",
           },
-          connectTimeout: const Duration(seconds: 10),
-          receiveTimeout: const Duration(seconds: 15),
+          connectTimeout: const Duration(seconds: AppConstants.connectTimeout),
+          receiveTimeout: const Duration(seconds: AppConstants.receiveTimeout),
         ),
       );
       final response = await dio.post(
-        "/refresh",
+        APIEndPoints.refresh.url,
         data: {"refresh_token": refreshToken},
       );
 
@@ -109,7 +112,7 @@ class DioClient {
         }
       }
     } catch (e) {
-      logger('Failed: $e');
+      _logger.log('Failed: $e');
     }
     return false;
   }

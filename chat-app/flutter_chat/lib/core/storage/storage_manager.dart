@@ -1,5 +1,6 @@
 import 'package:flutter_chat/core/storage/local_storage.dart';
-import 'package:flutter_chat/core/utils/constants.dart';
+
+import '../utils/app_logger.dart';
 
 class StorageManager {
   StorageManager({LocalStorage? storageManager})
@@ -7,14 +8,15 @@ class StorageManager {
     _storageManager.initStorage();
   }
   final LocalStorage _storageManager;
+  final AppLogger _logger = AppLogger();
 
   Future<void> saveData(String key, dynamic value) async {
-    logger("Values saved, $key : $value");
+    _logger.log("Values saved, $key : $value");
     await _storageManager.saveValue(key, value);
   }
 
   Future<void> saveEncryptedData(String key, dynamic value) async {
-    logger("Values saved, $key : $value");
+    _logger.log("Values saved, $key : $value");
     await _storageManager.saveEncryptedValue(key, value);
   }
 
@@ -27,12 +29,12 @@ class StorageManager {
   }
 
   Future<void> clearData(String key) async {
-    logger("Clear value, $key");
+    _logger.log("Clear value, $key");
     await _storageManager.removeValue(key);
   }
 
   Future<void> clearAll() async {
-    logger("Clear all values");
+    _logger.log("Clear all values");
     await _storageManager.removeAllFromStorage();
   }
 }

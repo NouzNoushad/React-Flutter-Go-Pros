@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
-import 'package:flutter_chat/core/utils/constants.dart';
+import 'package:flutter_chat/core/utils/app_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/app_keys.dart';
@@ -20,6 +20,7 @@ abstract class LocalStorageHelper {
 class LocalStorage extends LocalStorageHelper {
   SharedPreferences? _prefs;
   static const String _encryptionKey = AppKeys.privateKey;
+  final AppLogger _logger = AppLogger();
 
   Future<void> initStorage() async {
     _prefs ??= await SharedPreferences.getInstance();
@@ -77,14 +78,14 @@ class LocalStorage extends LocalStorageHelper {
       final data = decoded["data"];
       final hash = decoded["hash"];
       if (hash != _generateHash(data)) {
-        logger('Tampering detected! Decryption aborted.');
+        _logger.log('Tampering detected! Decryption aborted.');
         return null;
       }
       final encrypter = await _createEncrypter();
       final decrypted = encrypter.decrypt64(data, iv: iv);
       return decrypted;
     } catch (e) {
-      logger('Decryption failed: $e');
+      _logger.log('Decryption failed: $e');
       return null;
     }
   }

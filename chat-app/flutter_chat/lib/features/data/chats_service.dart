@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_chat/core/api/end_points.dart';
 import 'package:flutter_chat/features/data/messages.dart';
 import 'package:flutter_chat/features/models/message.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -9,7 +10,7 @@ class ChatsService {
   final MessagesRepository _messagesRepository = MessagesRepository();
 
   void connect() {
-    channel = WebSocketChannel.connect(Uri.parse('ws://10.0.2.2:8080/ws'));
+    channel = WebSocketChannel.connect(Uri.parse(APIEndPoints.ws.wsUrl));
   }
 
   void sendMessage({
