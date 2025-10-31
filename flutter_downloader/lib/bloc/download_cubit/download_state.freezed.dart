@@ -277,7 +277,7 @@ as List<DownloadItem>,
 /// @nodoc
 mixin _$DownloadItem {
 
- String get id; String get url; String get filename; TaskStatus get status; String? get localPath; DownloadTask? get task; double get progress; double get downloadBytes; int get totalBytes; double get speed;
+ String get id; String get url; String get filename; TaskStatus get status; String? get localPath; DownloadTask? get task; double get progress; double get downloadBytes; int get totalBytes; double get speed; double? get pausedProgress; double? get pausedBytes;
 /// Create a copy of DownloadItem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -288,16 +288,16 @@ $DownloadItemCopyWith<DownloadItem> get copyWith => _$DownloadItemCopyWithImpl<D
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DownloadItem&&(identical(other.id, id) || other.id == id)&&(identical(other.url, url) || other.url == url)&&(identical(other.filename, filename) || other.filename == filename)&&(identical(other.status, status) || other.status == status)&&(identical(other.localPath, localPath) || other.localPath == localPath)&&(identical(other.task, task) || other.task == task)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.downloadBytes, downloadBytes) || other.downloadBytes == downloadBytes)&&(identical(other.totalBytes, totalBytes) || other.totalBytes == totalBytes)&&(identical(other.speed, speed) || other.speed == speed));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DownloadItem&&(identical(other.id, id) || other.id == id)&&(identical(other.url, url) || other.url == url)&&(identical(other.filename, filename) || other.filename == filename)&&(identical(other.status, status) || other.status == status)&&(identical(other.localPath, localPath) || other.localPath == localPath)&&(identical(other.task, task) || other.task == task)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.downloadBytes, downloadBytes) || other.downloadBytes == downloadBytes)&&(identical(other.totalBytes, totalBytes) || other.totalBytes == totalBytes)&&(identical(other.speed, speed) || other.speed == speed)&&(identical(other.pausedProgress, pausedProgress) || other.pausedProgress == pausedProgress)&&(identical(other.pausedBytes, pausedBytes) || other.pausedBytes == pausedBytes));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,url,filename,status,localPath,task,progress,downloadBytes,totalBytes,speed);
+int get hashCode => Object.hash(runtimeType,id,url,filename,status,localPath,task,progress,downloadBytes,totalBytes,speed,pausedProgress,pausedBytes);
 
 @override
 String toString() {
-  return 'DownloadItem(id: $id, url: $url, filename: $filename, status: $status, localPath: $localPath, task: $task, progress: $progress, downloadBytes: $downloadBytes, totalBytes: $totalBytes, speed: $speed)';
+  return 'DownloadItem(id: $id, url: $url, filename: $filename, status: $status, localPath: $localPath, task: $task, progress: $progress, downloadBytes: $downloadBytes, totalBytes: $totalBytes, speed: $speed, pausedProgress: $pausedProgress, pausedBytes: $pausedBytes)';
 }
 
 
@@ -308,7 +308,7 @@ abstract mixin class $DownloadItemCopyWith<$Res>  {
   factory $DownloadItemCopyWith(DownloadItem value, $Res Function(DownloadItem) _then) = _$DownloadItemCopyWithImpl;
 @useResult
 $Res call({
- String id, String url, String filename, TaskStatus status, String? localPath, DownloadTask? task, double progress, double downloadBytes, int totalBytes, double speed
+ String id, String url, String filename, TaskStatus status, String? localPath, DownloadTask? task, double progress, double downloadBytes, int totalBytes, double speed, double? pausedProgress, double? pausedBytes
 });
 
 
@@ -325,7 +325,7 @@ class _$DownloadItemCopyWithImpl<$Res>
 
 /// Create a copy of DownloadItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? url = null,Object? filename = null,Object? status = null,Object? localPath = freezed,Object? task = freezed,Object? progress = null,Object? downloadBytes = null,Object? totalBytes = null,Object? speed = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? url = null,Object? filename = null,Object? status = null,Object? localPath = freezed,Object? task = freezed,Object? progress = null,Object? downloadBytes = null,Object? totalBytes = null,Object? speed = null,Object? pausedProgress = freezed,Object? pausedBytes = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
@@ -337,7 +337,9 @@ as DownloadTask?,progress: null == progress ? _self.progress : progress // ignor
 as double,downloadBytes: null == downloadBytes ? _self.downloadBytes : downloadBytes // ignore: cast_nullable_to_non_nullable
 as double,totalBytes: null == totalBytes ? _self.totalBytes : totalBytes // ignore: cast_nullable_to_non_nullable
 as int,speed: null == speed ? _self.speed : speed // ignore: cast_nullable_to_non_nullable
-as double,
+as double,pausedProgress: freezed == pausedProgress ? _self.pausedProgress : pausedProgress // ignore: cast_nullable_to_non_nullable
+as double?,pausedBytes: freezed == pausedBytes ? _self.pausedBytes : pausedBytes // ignore: cast_nullable_to_non_nullable
+as double?,
   ));
 }
 
@@ -422,10 +424,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String url,  String filename,  TaskStatus status,  String? localPath,  DownloadTask? task,  double progress,  double downloadBytes,  int totalBytes,  double speed)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String url,  String filename,  TaskStatus status,  String? localPath,  DownloadTask? task,  double progress,  double downloadBytes,  int totalBytes,  double speed,  double? pausedProgress,  double? pausedBytes)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DownloadItem() when $default != null:
-return $default(_that.id,_that.url,_that.filename,_that.status,_that.localPath,_that.task,_that.progress,_that.downloadBytes,_that.totalBytes,_that.speed);case _:
+return $default(_that.id,_that.url,_that.filename,_that.status,_that.localPath,_that.task,_that.progress,_that.downloadBytes,_that.totalBytes,_that.speed,_that.pausedProgress,_that.pausedBytes);case _:
   return orElse();
 
 }
@@ -443,10 +445,10 @@ return $default(_that.id,_that.url,_that.filename,_that.status,_that.localPath,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String url,  String filename,  TaskStatus status,  String? localPath,  DownloadTask? task,  double progress,  double downloadBytes,  int totalBytes,  double speed)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String url,  String filename,  TaskStatus status,  String? localPath,  DownloadTask? task,  double progress,  double downloadBytes,  int totalBytes,  double speed,  double? pausedProgress,  double? pausedBytes)  $default,) {final _that = this;
 switch (_that) {
 case _DownloadItem():
-return $default(_that.id,_that.url,_that.filename,_that.status,_that.localPath,_that.task,_that.progress,_that.downloadBytes,_that.totalBytes,_that.speed);case _:
+return $default(_that.id,_that.url,_that.filename,_that.status,_that.localPath,_that.task,_that.progress,_that.downloadBytes,_that.totalBytes,_that.speed,_that.pausedProgress,_that.pausedBytes);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -463,10 +465,10 @@ return $default(_that.id,_that.url,_that.filename,_that.status,_that.localPath,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String url,  String filename,  TaskStatus status,  String? localPath,  DownloadTask? task,  double progress,  double downloadBytes,  int totalBytes,  double speed)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String url,  String filename,  TaskStatus status,  String? localPath,  DownloadTask? task,  double progress,  double downloadBytes,  int totalBytes,  double speed,  double? pausedProgress,  double? pausedBytes)?  $default,) {final _that = this;
 switch (_that) {
 case _DownloadItem() when $default != null:
-return $default(_that.id,_that.url,_that.filename,_that.status,_that.localPath,_that.task,_that.progress,_that.downloadBytes,_that.totalBytes,_that.speed);case _:
+return $default(_that.id,_that.url,_that.filename,_that.status,_that.localPath,_that.task,_that.progress,_that.downloadBytes,_that.totalBytes,_that.speed,_that.pausedProgress,_that.pausedBytes);case _:
   return null;
 
 }
@@ -478,7 +480,7 @@ return $default(_that.id,_that.url,_that.filename,_that.status,_that.localPath,_
 
 
 class _DownloadItem implements DownloadItem {
-  const _DownloadItem({required this.id, required this.url, required this.filename, required this.status, required this.localPath, this.task, this.progress = 0.0, this.downloadBytes = 0.0, this.totalBytes = 0, this.speed = 0.0});
+  const _DownloadItem({required this.id, required this.url, required this.filename, required this.status, required this.localPath, this.task, this.progress = 0.0, this.downloadBytes = 0.0, this.totalBytes = 0, this.speed = 0.0, this.pausedProgress = 0.0, this.pausedBytes = 0.0});
   
 
 @override final  String id;
@@ -491,6 +493,8 @@ class _DownloadItem implements DownloadItem {
 @override@JsonKey() final  double downloadBytes;
 @override@JsonKey() final  int totalBytes;
 @override@JsonKey() final  double speed;
+@override@JsonKey() final  double? pausedProgress;
+@override@JsonKey() final  double? pausedBytes;
 
 /// Create a copy of DownloadItem
 /// with the given fields replaced by the non-null parameter values.
@@ -502,16 +506,16 @@ _$DownloadItemCopyWith<_DownloadItem> get copyWith => __$DownloadItemCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DownloadItem&&(identical(other.id, id) || other.id == id)&&(identical(other.url, url) || other.url == url)&&(identical(other.filename, filename) || other.filename == filename)&&(identical(other.status, status) || other.status == status)&&(identical(other.localPath, localPath) || other.localPath == localPath)&&(identical(other.task, task) || other.task == task)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.downloadBytes, downloadBytes) || other.downloadBytes == downloadBytes)&&(identical(other.totalBytes, totalBytes) || other.totalBytes == totalBytes)&&(identical(other.speed, speed) || other.speed == speed));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DownloadItem&&(identical(other.id, id) || other.id == id)&&(identical(other.url, url) || other.url == url)&&(identical(other.filename, filename) || other.filename == filename)&&(identical(other.status, status) || other.status == status)&&(identical(other.localPath, localPath) || other.localPath == localPath)&&(identical(other.task, task) || other.task == task)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.downloadBytes, downloadBytes) || other.downloadBytes == downloadBytes)&&(identical(other.totalBytes, totalBytes) || other.totalBytes == totalBytes)&&(identical(other.speed, speed) || other.speed == speed)&&(identical(other.pausedProgress, pausedProgress) || other.pausedProgress == pausedProgress)&&(identical(other.pausedBytes, pausedBytes) || other.pausedBytes == pausedBytes));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,url,filename,status,localPath,task,progress,downloadBytes,totalBytes,speed);
+int get hashCode => Object.hash(runtimeType,id,url,filename,status,localPath,task,progress,downloadBytes,totalBytes,speed,pausedProgress,pausedBytes);
 
 @override
 String toString() {
-  return 'DownloadItem(id: $id, url: $url, filename: $filename, status: $status, localPath: $localPath, task: $task, progress: $progress, downloadBytes: $downloadBytes, totalBytes: $totalBytes, speed: $speed)';
+  return 'DownloadItem(id: $id, url: $url, filename: $filename, status: $status, localPath: $localPath, task: $task, progress: $progress, downloadBytes: $downloadBytes, totalBytes: $totalBytes, speed: $speed, pausedProgress: $pausedProgress, pausedBytes: $pausedBytes)';
 }
 
 
@@ -522,7 +526,7 @@ abstract mixin class _$DownloadItemCopyWith<$Res> implements $DownloadItemCopyWi
   factory _$DownloadItemCopyWith(_DownloadItem value, $Res Function(_DownloadItem) _then) = __$DownloadItemCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String url, String filename, TaskStatus status, String? localPath, DownloadTask? task, double progress, double downloadBytes, int totalBytes, double speed
+ String id, String url, String filename, TaskStatus status, String? localPath, DownloadTask? task, double progress, double downloadBytes, int totalBytes, double speed, double? pausedProgress, double? pausedBytes
 });
 
 
@@ -539,7 +543,7 @@ class __$DownloadItemCopyWithImpl<$Res>
 
 /// Create a copy of DownloadItem
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? url = null,Object? filename = null,Object? status = null,Object? localPath = freezed,Object? task = freezed,Object? progress = null,Object? downloadBytes = null,Object? totalBytes = null,Object? speed = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? url = null,Object? filename = null,Object? status = null,Object? localPath = freezed,Object? task = freezed,Object? progress = null,Object? downloadBytes = null,Object? totalBytes = null,Object? speed = null,Object? pausedProgress = freezed,Object? pausedBytes = freezed,}) {
   return _then(_DownloadItem(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
@@ -551,7 +555,9 @@ as DownloadTask?,progress: null == progress ? _self.progress : progress // ignor
 as double,downloadBytes: null == downloadBytes ? _self.downloadBytes : downloadBytes // ignore: cast_nullable_to_non_nullable
 as double,totalBytes: null == totalBytes ? _self.totalBytes : totalBytes // ignore: cast_nullable_to_non_nullable
 as int,speed: null == speed ? _self.speed : speed // ignore: cast_nullable_to_non_nullable
-as double,
+as double,pausedProgress: freezed == pausedProgress ? _self.pausedProgress : pausedProgress // ignore: cast_nullable_to_non_nullable
+as double?,pausedBytes: freezed == pausedBytes ? _self.pausedBytes : pausedBytes // ignore: cast_nullable_to_non_nullable
+as double?,
   ));
 }
 

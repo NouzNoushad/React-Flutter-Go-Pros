@@ -23,5 +23,7 @@ abstract class DownloadItem with _$DownloadItem {
     @Default(0.0) double downloadBytes,
     @Default(0) int totalBytes,
     @Default(0.0) double speed,
+    @Default(0.0) double? pausedProgress,
+    @Default(0.0) double? pausedBytes,
   }) = _DownloadItem;
 }

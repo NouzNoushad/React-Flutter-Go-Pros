@@ -1,3 +1,4 @@
+import 'package:background_downloader/background_downloader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_downloader/bloc/download_cubit/download_cubit.dart';
@@ -34,36 +35,47 @@ class _DownloadViewState extends State<DownloadView> {
             padding: EdgeInsets.all(10.0),
             itemBuilder: (context, index) {
               final item = state.downloads[index];
-              return ListTile(
-                title: Text(item.filename),
-                subtitle: Column(
+              return Container(
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 8,
+                  spacing: 8.0,
                   children: [
+                    Text(item.filename),
                     LinearProgressIndicator(value: item.progress),
                     Text(
                       "${formatBytes(item.downloadBytes)} / ${formatBytes(item.totalBytes)}",
                     ),
-                    Text("${formatBytes(item.speed)}/s"),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        IconButton(
-                          onPressed: () {
-                            _downloadCubit.pauseDownload(item.id);
-                          },
-                          icon: Icon(Icons.pause),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            _downloadCubit.resumeDownload(item.id);
-                          },
-                          icon: Icon(Icons.play_arrow),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            _downloadCubit.deleteDownload(item.id);
-                          },
-                          icon: Icon(Icons.close),
+                        Text("${formatBytes(item.speed)}/s"),
+                        Row(
+                          children: [
+                            item.status == TaskStatus.paused
+                                ? IconButton(
+                                    onPressed: () {
+                                      _downloadCubit.resumeDownload(item.id);
+                                    },
+                                    icon: Icon(Icons.play_arrow),
+                                  )
+                                : IconButton(
+                                    onPressed: () {
+                                      _downloadCubit.pauseDownload(item.id);
+                                    },
+                                    icon: Icon(Icons.pause),
+                                  ),
+                            IconButton(
+                              onPressed: () {
+                                _downloadCubit.deleteDownload(item.id);
+                              },
+                              icon: Icon(Icons.close),
+                            ),
+                          ],
                         ),
                       ],
                     ),
