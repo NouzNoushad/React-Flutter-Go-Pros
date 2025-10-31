@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_downloader/bloc/download_cubit/download_cubit.dart';
+import 'package:flutter_downloader/helpers/converter.dart';
 
 import '../bloc/download_cubit/download_state.dart';
 
@@ -40,7 +41,10 @@ class _DownloadViewState extends State<DownloadView> {
                   spacing: 8,
                   children: [
                     LinearProgressIndicator(value: item.progress),
-                    Text(item.status.toString().split('/').last),
+                    Text(
+                      "${formatBytes(item.downloadBytes)} / ${formatBytes(item.totalBytes)}",
+                    ),
+                    Text("${formatBytes(item.speed)}/s"),
                     Row(
                       children: [
                         IconButton(

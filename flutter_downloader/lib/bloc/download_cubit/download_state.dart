@@ -18,6 +18,10 @@ abstract class DownloadItem with _$DownloadItem {
     required String filename,
     required TaskStatus status,
     required String? localPath,
+    DownloadTask? task,
     @Default(0.0) double progress,
+    @Default(0.0) double downloadBytes,
+    @Default(0) int totalBytes,
+    @Default(0.0) double speed,
   }) = _DownloadItem;
 }

@@ -20,8 +20,13 @@ class DownloadCubit extends Cubit<DownloadState> {
   // handle update
   void _handleUpdate(TaskUpdate update) async {
     switch (update) {
-      case TaskProgressUpdate(:final DownloadTask task, :final double progress):
-        _updateProgress(task.taskId, progress);
+      case TaskProgressUpdate(
+        :final DownloadTask task,
+        :final double progress,
+        :final int? expectedFileSize,
+        :final double networkSpeed,
+      ):
+        _updateProgress(task.taskId, progress, expectedFileSize, networkSpeed);
         break;
       case TaskStatusUpdate(:final DownloadTask task, :final TaskStatus status):
         _updateStatus(task, status);
@@ -32,10 +37,32 @@ class DownloadCubit extends Cubit<DownloadState> {
   }
 
   // update progress
-  void _updateProgress(String taskId, double progress) {
+  void _updateProgress(
+    String taskId,
+    double progress,
+    int? expectedFileSize,
+    double networkSpeed,
+  ) {
     final index = state.downloads.indexWhere((d) => d.id == taskId);
     if (index == -1) return;
-    final updatedItem = state.downloads[index].copyWith(progress: progress);
+
+    final oldItem = state.downloads[index];
+
+    final totalBytes = (expectedFileSize != null && expectedFileSize > 0)
+        ? expectedFileSize
+        : oldItem.totalBytes;
+    final downloadedBytes = totalBytes > 0
+        ? (totalBytes * progress)
+        : oldItem.downloadBytes;
+
+    final safeSpeed = (networkSpeed > 0) ? networkSpeed : oldItem.speed;
+
+    final updatedItem = state.downloads[index].copyWith(
+      progress: progress,
+      totalBytes: totalBytes,
+      downloadBytes: downloadedBytes,
+      speed: safeSpeed,
+    );
     final updatedList = [...state.downloads];
     updatedList[index] = updatedItem;
 
@@ -66,6 +93,7 @@ class DownloadCubit extends Cubit<DownloadState> {
       filename: fileName,
       baseDirectory: BaseDirectory.applicationDocuments,
       updates: Updates.statusAndProgress,
+      allowPause: true,
     );
 
     final newItem = DownloadItem(
@@ -74,6 +102,7 @@ class DownloadCubit extends Cubit<DownloadState> {
       filename: fileName,
       status: TaskStatus.enqueued,
       localPath: null,
+      task: task,
     );
 
     emit(state.copyWith(downloads: [...state.downloads, newItem]));
@@ -83,23 +112,15 @@ class DownloadCubit extends Cubit<DownloadState> {
   // pause download
   Future<void> pauseDownload(String id) async {
     final item = state.downloads.firstWhere((d) => d.id == id);
-    final task = DownloadTask(
-      url: item.url,
-      taskId: item.id,
-      filename: item.filename,
-    );
-    await _downloader.pause(task);
+    if (item.task == null) return;
+    await _downloader.pause(item.task!);
   }
 
   // resume download
   Future<void> resumeDownload(String id) async {
     final item = state.downloads.firstWhere((d) => d.id == id);
-    final task = DownloadTask(
-      url: item.url,
-      taskId: item.id,
-      filename: item.filename,
-    );
-    await _downloader.resume(task);
+    if (item.task == null) return;
+    await _downloader.resume(item.task!);
   }
 
   // delete download
