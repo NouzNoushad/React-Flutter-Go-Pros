@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_downloader/bloc/download_cubit/download_cubit.dart';
 import 'package:flutter_downloader/bloc/home_cubit/home_cubit.dart';
 
 import 'views/home.dart';
@@ -13,8 +14,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => HomeCubit()),
+        BlocProvider(create: (context) => DownloadCubit()),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(

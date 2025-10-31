@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_downloader/bloc/download_cubit/download_cubit.dart';
 import 'package:flutter_downloader/bloc/home_cubit/home_cubit.dart';
+import 'package:flutter_downloader/views/download_view.dart';
 
 import '../bloc/home_cubit/home_state.dart';
 
@@ -13,10 +15,12 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   late HomeCubit _homeCubit;
+  late DownloadCubit _downloadCubit;
 
   @override
   void initState() {
     _homeCubit = context.read<HomeCubit>();
+    _downloadCubit = context.read<DownloadCubit>();
     super.initState();
   }
 
@@ -28,14 +32,27 @@ class _HomeViewState extends State<HomeView> {
           : "No pages",
     ),
     actions: [
-      if (state.pages.isNotEmpty)
-        IconButton(onPressed: () {}, icon: Icon(Icons.download)),
+      IconButton(
+        onPressed: () {
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (context) => DownloadView()));
+        },
+        icon: Icon(Icons.download),
+      ),
     ],
   );
 
   // add button
-  Widget _buildDownloadButton() =>
-      FloatingActionButton(onPressed: () {}, child: Icon(Icons.download));
+  Widget _buildDownloadButton() => FloatingActionButton(
+    onPressed: () {
+      String url =
+          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+      String fileName = url.split('/').last;
+      _downloadCubit.startDownload(url, fileName);
+    },
+    child: Icon(Icons.download),
+  );
 
   // drawer
   Widget _buildDrawer({required HomeState state}) => Drawer(
