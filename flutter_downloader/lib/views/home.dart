@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_downloader/bloc/download_cubit/download_cubit.dart';
 import 'package:flutter_downloader/bloc/home_cubit/home_cubit.dart';
 import 'package:flutter_downloader/views/download_view.dart';
+import 'package:flutter_downloader/views/finished_view.dart';
 
 import '../bloc/home_cubit/home_state.dart';
 
@@ -42,6 +43,14 @@ class _HomeViewState extends State<HomeView> {
           ).push(MaterialPageRoute(builder: (context) => DownloadView()));
         },
         icon: Icon(Icons.download),
+      ),
+      IconButton(
+        onPressed: () {
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (context) => FinishedView()));
+        },
+        icon: Icon(Icons.file_download_done_sharp),
       ),
     ],
   );
