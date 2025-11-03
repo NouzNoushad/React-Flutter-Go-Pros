@@ -5,7 +5,8 @@ import 'package:flutter_downloader/bloc/home_cubit/home_cubit.dart';
 
 import 'views/home.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

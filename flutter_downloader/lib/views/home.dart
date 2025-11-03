@@ -6,6 +6,9 @@ import 'package:flutter_downloader/views/download_view.dart';
 
 import '../bloc/home_cubit/home_state.dart';
 
+String url =
+    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -46,9 +49,7 @@ class _HomeViewState extends State<HomeView> {
   // add button
   Widget _buildDownloadButton() => FloatingActionButton(
     onPressed: () {
-      String url =
-          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
-      String fileName = url.split('/').last;
+      String fileName = "fd_${url.split('/').last}";
       _downloadCubit.startDownload(url, fileName);
     },
     child: Icon(Icons.download),

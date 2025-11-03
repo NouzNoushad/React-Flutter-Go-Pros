@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter_downloader/db/download_db.dart';
 
 import 'download_state.dart';
 import 'package:background_downloader/background_downloader.dart';
@@ -8,13 +9,35 @@ import 'package:background_downloader/background_downloader.dart';
 class DownloadCubit extends Cubit<DownloadState> {
   DownloadCubit() : super(DownloadState.initial()) {
     _initializeDownloader();
+    _loadSavedDownloads();
   }
 
   final FileDownloader _downloader = FileDownloader();
   late final StreamSubscription<TaskUpdate> _updateSub;
+  final DownloadDB _db = DownloadDB();
 
   void _initializeDownloader() {
     _updateSub = _downloader.updates.listen(_handleUpdate);
+  }
+
+  Future<void> _loadSavedDownloads() async {
+    final saved = await _db.getAllDownloads();
+    final downloads = saved.map((d) {
+      return DownloadItem(
+        id: d.id,
+        url: d.url,
+        filename: d.filename,
+        progress: d.progress,
+        totalBytes: 0,
+        downloadBytes: 0,
+        status: d.status,
+        localPath: null,
+        task: null,
+        speed: 0,
+      );
+    }).toList();
+
+    emit(state.copyWith(downloads: downloads));
   }
 
   // handle update
@@ -49,7 +72,7 @@ class DownloadCubit extends Cubit<DownloadState> {
     double progress,
     int? expectedFileSize,
     double networkSpeed,
-  ) {
+  ) async {
     final index = state.downloads.indexWhere((d) => d.id == taskId);
     if (index == -1) return;
 
@@ -73,6 +96,7 @@ class DownloadCubit extends Cubit<DownloadState> {
     updatedList[index] = updatedItem;
 
     emit(state.copyWith(downloads: updatedList));
+    await _db.updateDownload(updatedItem);
   }
 
   // update status
@@ -101,7 +125,9 @@ class DownloadCubit extends Cubit<DownloadState> {
     }
     final updatedList = [...state.downloads];
     updatedList[index] = updatedItem;
+
     emit(state.copyWith(downloads: updatedList));
+    await _db.updateDownload(updatedItem);
   }
 
   // start download
@@ -142,24 +168,37 @@ class DownloadCubit extends Cubit<DownloadState> {
     final updatedItem = item.copyWith(
       pausedBytes: item.downloadBytes,
       pausedProgress: item.progress,
+      status: TaskStatus.paused,
     );
     final updatedList = [...state.downloads];
     updatedList[index] = updatedItem;
-    emit(state.copyWith(downloads: updatedList));
 
+    emit(state.copyWith(downloads: updatedList));
+    await _db.updateDownload(updatedItem);
     await _downloader.pause(item.task!);
   }
 
   // resume download
   Future<void> resumeDownload(String id) async {
-    final item = state.downloads.firstWhere((d) => d.id == id);
+    final index = state.downloads.indexWhere((d) => d.id == id);
+    if (index == -1) return;
+
+    final item = state.downloads[index];
     if (item.task == null) return;
+
+    final updatedItem = item.copyWith(status: TaskStatus.running, speed: 0.0);
+    final updatedList = [...state.downloads];
+    updatedList[index] = updatedItem;
+
+    emit(state.copyWith(downloads: updatedList));
+    await _db.updateDownload(updatedItem);
     await _downloader.resume(item.task!);
   }
 
   // delete download
   Future<void> deleteDownload(String id) async {
     await _downloader.cancelTasksWithIds([id]);
+    await _db.deleteDownload(id);
     emit(
       state.copyWith(
         downloads: state.downloads.where((d) => d.id != id).toList(),
