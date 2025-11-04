@@ -4,6 +4,7 @@ import 'package:background_downloader/background_downloader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_downloader/helpers/converter.dart';
+import 'package:flutter_downloader/views/video_view.dart';
 
 import '../bloc/download_cubit/download_cubit.dart';
 import '../bloc/download_cubit/download_state.dart';
@@ -44,33 +45,43 @@ class _FinishedViewState extends State<FinishedView> {
               final fileExists =
                   item.localPath != null && File(item.localPath!).existsSync();
 
-              return Container(
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 8.0,
-                      children: [
-                        Text(item.filename),
-                        Text(formatBytes(item.downloadBytes)),
-                      ],
+              return GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          VideoView(filePath: item.localPath ?? ''),
                     ),
-                    IconButton(
-                      onPressed: () async {
-                        if (fileExists) {
-                          await File(item.localPath!).delete();
-                        }
-                        await _downloadCubit.deleteDownload(item.id);
-                      },
-                      icon: Icon(Icons.close),
-                    ),
-                  ],
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 8.0,
+                        children: [
+                          Text(item.filename),
+                          Text(formatBytes(item.downloadBytes)),
+                        ],
+                      ),
+                      IconButton(
+                        onPressed: () async {
+                          if (fileExists) {
+                            await File(item.localPath!).delete();
+                          }
+                          await _downloadCubit.deleteDownload(item.id);
+                        },
+                        icon: Icon(Icons.close),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

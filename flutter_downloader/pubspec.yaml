@@ -40,6 +40,8 @@ dependencies:
   background_downloader: ^9.2.6
   sqflite: ^2.4.2
   path: ^1.9.1
+  video_player: ^2.10.0
+  chewie: ^1.13.0
 
 dev_dependencies:
   flutter_test:
