@@ -18,6 +18,7 @@
 @theme {
     --color-primary: #1F2E4E;
     --color-secondary: #EA001E;
+    --color-gray: #6E7684;
 }
 
 @layer components {
