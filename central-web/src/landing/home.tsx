@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function Home() {
     return (
         <div className="relative h-screen bg-red-200">
-            <img src="/img/carousel-1.jpg" alt="" className="w-full h-full object-cover" />
-            <div className="absolute top-0 left-0 inset-0 bg-black/60">
+            <img src="/img/carousel-1.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" />
+            <div className="relative bg-black/60 h-full">
                 <div className="container-md py-16">
-                    <div className="grid md:grid-cols-2 grid-cols-1 gap-8">
+                    <div className="grid lg:grid-cols-2 grid-cols-1 gap-8">
                         <div className="bg-primary rounded-lg px-8 py-10">
                             {/* left content */}
                             <h4 className="uppercase text-center text-white text-2xl">CONTINUE CAR RESERVATION</h4>
