@@ -19,6 +19,7 @@
     --color-primary: #1F2E4E;
     --color-secondary: #EA001E;
     --color-gray: #6E7684;
+    --color-icon-dark: #1F2E4E;
 }
 
 @layer components {
@@ -36,5 +37,21 @@
 
     .nav-link {
         @apply text-lg font-normal transition-colors duration-150 hover:text-secondary cursor-pointer;
+    }
+
+    .main-container {
+        @apply max-w-[900px] mx-auto flex flex-col items-center justify-center gap-6;
+    }
+
+    .main-header-1 {
+        @apply text-5xl font-medium;
+    }
+
+    .main-header-2 {
+        @apply text-secondary;
+    }
+
+    .main-p {
+        @apply text-center text-gray;
     }
 }

@@ -1,3 +1,4 @@
+import Features from "./features";
 import Header from "./header";
 import Home from "./home";
 
@@ -6,6 +7,7 @@ export default function Main() {
         <div>
             <Header />
             <Home />
+            <Features />
         </div>
     )
 }
