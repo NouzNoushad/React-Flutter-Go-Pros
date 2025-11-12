@@ -3,6 +3,7 @@ import Features from "./features";
 import Header from "./header";
 import Home from "./home";
 import Service from "./service";
+import Steps from "./steps";
 
 export default function Main() {
     return (
@@ -13,6 +14,8 @@ export default function Main() {
             {/* TODO: About */}
             <FactCounter />
             <Service />
+            {/* TODO: Categories */}
+            <Steps />
         </div>
     )
 }
