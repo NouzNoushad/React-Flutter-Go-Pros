@@ -2,6 +2,7 @@ import FactCounter from "./fact_counter";
 import Features from "./features";
 import Header from "./header";
 import Home from "./home";
+import Service from "./service";
 
 export default function Main() {
     return (
@@ -11,6 +12,7 @@ export default function Main() {
             <Features />
             {/* TODO: About */}
             <FactCounter />
+            <Service />
         </div>
     )
 }
