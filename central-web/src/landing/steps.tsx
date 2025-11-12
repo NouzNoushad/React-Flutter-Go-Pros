@@ -1,4 +1,18 @@
 export default function Steps() {
+    const steps = [
+        {
+            label: 'Come In Contact',
+            number: '01'
+        },
+        {
+            label: 'Choose A Car',
+            number: '02'
+        },
+        {
+            label: 'Enjoy Driving',
+            number: '03'
+        },
+    ]
     return (
         <div className="relative">
             <img src="/img/bg-1.jpg" alt="" className="absolute inset-0 h-full w-full object-cover bg-center" />
@@ -9,11 +23,15 @@ export default function Steps() {
                 </div>
                 <div className="container-md mt-10">
                     <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
-                        <div className="bg-primary text-white rounded-lg px-6 py-4 space-y-2 relative">
-                            <h4 className="text-[28px]">Come In Contact</h4>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, dolorem!</p>
-                            <div className="absolute bottom-0 right-10 h-16 w-16 rounded-full bg-primary border border-white flex items-center justify-center transform translate-y-[50%] font-bold">01.</div>
-                        </div>
+                        {
+                            steps.map((step, i) => (
+                                <div key={i} className="bg-primary text-white rounded-lg px-6 py-4 space-y-2 relative">
+                                    <h4 className="text-[28px]">{step.label}</h4>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, dolorem!</p>
+                                    <div className="absolute bottom-0 right-10 h-16 w-16 rounded-full bg-primary border border-white flex items-center justify-center transform translate-y-[50%] font-bold text-[17px]">{step.number}.</div>
+                                </div>
+                            ))
+                        }
                     </div>
                 </div>
             </div>
