@@ -1,6 +1,6 @@
 export default function Banner() {
     return (
-        <div className="container-md pb-12 relative">
+        <div className="container-md relative">
             <div className="relative aspect-video w-full rounded-lg overflow-hidden">
                 <img src="/img/banner-1.jpg" alt="" className="absolute inset-0 h-full w-full rounded-lg object-cover bg-center" />
                 <div className="relative h-full bg-black/60 rounded-lg px-5 py-5">

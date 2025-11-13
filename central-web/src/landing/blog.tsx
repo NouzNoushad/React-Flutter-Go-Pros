@@ -32,7 +32,9 @@ export default function Blog() {
                             <div key={i} className="flex flex-col items-center transition-all duration-200 hover:shadow-[0_0_45px_rgba(0,0,0,.2)] group rounded-lg">
                                 <div className="relative overflow-hidden rounded-t-lg">
                                     <img src={`/img/${blog.image}`} alt="" className="w-full h-auto rounded-t-lg transition-transform duration-500 group-hover:scale-125" />
-                                    <div className="absolute inset-0 rounded-t-lg after:content-[''] after:absolute after:left-0 after:-bottom-full after:w-full after:h-full after:bg-[rgba(255,255,255,0.3)] after:transition-all after:duration-500 group-hover:after:bottom-0"></div>
+                                    <div className="absolute inset-0 overflow-hidden rounded-t-lg">
+                                        <div className="absolute inset-0 rounded-t-lg bg-[rgba(255,255,255,0.3)] transition-transform translate-y-full duration-500 group-hover:translate-y-0"></div>
+                                    </div>
                                 </div>
                                 <div className="bg-[#F2F2F2] rounded-b-lg relative px-5 pb-6 pt-10 space-y-4">
                                     <div className="absolute top-0 left-5 transform translate-y-[-50%] bg-secondary rounded-lg px-4 py-3 text-white">{blog.date}</div>

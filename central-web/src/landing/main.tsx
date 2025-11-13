@@ -6,6 +6,7 @@ import Header from "./header";
 import Home from "./home";
 import Service from "./service";
 import Steps from "./steps";
+import Team from "./team";
 
 export default function Main() {
     return (
@@ -20,6 +21,7 @@ export default function Main() {
             <Steps />
             <Blog />
             <Banner />
+            <Team />
         </div>
     )
 }
