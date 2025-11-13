@@ -1,3 +1,4 @@
+import Banner from "./banner";
 import Blog from "./blog";
 import FactCounter from "./fact_counter";
 import Features from "./features";
@@ -18,6 +19,7 @@ export default function Main() {
             {/* TODO: Categories */}
             <Steps />
             <Blog />
+            <Banner />
         </div>
     )
 }
