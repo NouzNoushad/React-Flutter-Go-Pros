@@ -7,6 +7,7 @@ import Home from "./home";
 import Service from "./service";
 import Steps from "./steps";
 import Team from "./team";
+import Testimonials from "./testimonials";
 
 export default function Main() {
     return (
@@ -22,6 +23,7 @@ export default function Main() {
             <Blog />
             <Banner />
             <Team />
+            <Testimonials />
         </div>
     )
 }
