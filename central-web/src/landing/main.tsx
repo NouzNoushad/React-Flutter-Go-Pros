@@ -1,3 +1,4 @@
+import Blog from "./blog";
 import FactCounter from "./fact_counter";
 import Features from "./features";
 import Header from "./header";
@@ -16,6 +17,7 @@ export default function Main() {
             <Service />
             {/* TODO: Categories */}
             <Steps />
+            <Blog />
         </div>
     )
 }
