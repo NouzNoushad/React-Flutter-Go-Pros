@@ -3,6 +3,7 @@ import Blog from "./blog";
 import Categories from "./categories";
 import FactCounter from "./fact_counter";
 import Features from "./features";
+import Footer from "./footer";
 import Header from "./header";
 import Home from "./home";
 import Service from "./service";
@@ -25,6 +26,7 @@ export default function Main() {
             <Banner />
             <Team />
             <Testimonials />
+            <Footer />
         </div>
     )
 }
