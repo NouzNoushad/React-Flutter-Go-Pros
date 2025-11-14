@@ -1,3 +1,4 @@
+import About from "./about";
 import Banner from "./banner";
 import Blog from "./blog";
 import Categories from "./categories";
@@ -17,7 +18,7 @@ export default function Main() {
             <Header />
             <Home />
             <Features />
-            {/* TODO: About */}
+            <About />
             <FactCounter />
             <Service />
             <Categories />
