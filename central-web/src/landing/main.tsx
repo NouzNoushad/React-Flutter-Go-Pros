@@ -1,5 +1,6 @@
 import Banner from "./banner";
 import Blog from "./blog";
+import Categories from "./categories";
 import FactCounter from "./fact_counter";
 import Features from "./features";
 import Header from "./header";
@@ -18,7 +19,7 @@ export default function Main() {
             {/* TODO: About */}
             <FactCounter />
             <Service />
-            {/* TODO: Categories */}
+            <Categories />
             <Steps />
             <Blog />
             <Banner />

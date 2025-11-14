@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,7 +9,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
 export default function Testimonials() {
-    const [swiperInstance, setSwiperInstance] = useState<unknown>(null)
+    // const [swiperInstance, setSwiperInstance] = useState<unknown>(null)
     const testimonials = [
         {
             name: 'Person Name',
@@ -48,7 +46,7 @@ export default function Testimonials() {
                     slidesPerView={2}
                     spaceBetween={30}
                     loop
-                    onSwiper={setSwiperInstance}
+                    // onSwiper={setSwiperInstance}
                     className="">
                     {
                         testimonials.map((slide, i) => (
