@@ -2,6 +2,7 @@ import Banner from "./banner";
 import CreateShort from "./create";
 import MainHeader from "./header";
 import Home from "./home";
+import Story from "./story";
 
 export default function MainPage() {
     return (
@@ -10,6 +11,7 @@ export default function MainPage() {
             <Home />
             <Banner />
             <CreateShort />
+            <Story />
         </>
     )
 }
