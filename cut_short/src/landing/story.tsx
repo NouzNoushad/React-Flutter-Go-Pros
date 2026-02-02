@@ -75,7 +75,7 @@ export default function Story() {
                             </div>
                         </div>
                     </div>
-                    <div className="p-4 sm:p-8 relative overflow-hidden col-span-1 md:col-span-2 md:border-b border-neutral-800">
+                    <div className="p-4 sm:p-8 relative overflow-hidden col-span-1 md:col-span-2 border-neutral-800">
                         <p className="max-w-5xl mx-auto text-left tracking-tight text-white text-xl md:text-2xl md:leading-snug">Automatic Voiceover</p>
                         <p className="text-sm text-neutral-300 font-normal text-left max-w-sm mx-0 md:text-sm my-2">Use ElevenLabs & OpenAI voices to generate videos with a real human voice.</p>
                         <div className="h-full w-full">
@@ -94,7 +94,7 @@ export default function Story() {
                             </div>
                         </div>
                     </div>
-                    <div className="p-4 sm:p-8 relative overflow-hidden col-span-1 md:col-span-2 md:border-r border-neutral-800">
+                    <div className="p-4 sm:p-8 relative overflow-hidden col-span-1 md:col-span-2 md:border-l border-neutral-800">
                         <p className="max-w-5xl mx-auto text-left tracking-tight text-white text-xl md:text-2xl md:leading-snug">Beautiful customizable captions</p>
                         <p className="text-sm text-neutral-300 font-normal text-left max-w-sm mx-0 md:text-sm my-2">Your videos come with beautiful, customizable captions.</p>
                         <div className="h-full w-full">
