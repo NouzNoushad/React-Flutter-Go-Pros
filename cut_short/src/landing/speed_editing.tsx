@@ -33,10 +33,10 @@ export default function SpeedEditing() {
                             </div>
                         </div>
                     </div>
-                    <div className="absolute top-0 left-[-10%] w-[120%] h-0.5 text-neutral-600
+                    <div className="absolute top-0 left-[-10%] w-[112%] h-0.5 text-neutral-600
   bg-[radial-gradient(circle,var(--color-neutral-600)_1px,transparent_1px)]
      bg-size-[6px_3px]"></div>
-                    <div className="absolute bottom-0 left-[-10%] w-[120%] h-0.5 text-neutral-600
+                    <div className="absolute bottom-0 left-[-10%] w-[112%] h-0.5 text-neutral-600
   bg-[radial-gradient(circle,var(--color-neutral-600)_1px,transparent_1px)]
      bg-size-[6px_3px]"></div>
                     <div className="absolute top-[-10%] right-0 h-[120%] w-0.5 text-neutral-600

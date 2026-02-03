@@ -1,6 +1,8 @@
 import Banner from "./banner";
 import CreateShort from "./create";
 import Features from "./features";
+import Footer from "./footer";
+import GetStart from "./get_start";
 import MainHeader from "./header";
 import Home from "./home";
 import SpeedEditing from "./speed_editing";
@@ -18,6 +20,8 @@ export default function MainPage() {
             <SpeedEditing />
             <VideoType />
             <Features />
+            <GetStart />
+            <Footer />
         </>
     )
 }
