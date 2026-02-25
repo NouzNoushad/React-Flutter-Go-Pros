@@ -1,0 +1,35 @@
+version: "3"
+
+dotenv: [".env"]
+
+vars:
+  DB_URL: "postgres://{{.DB_USER}}:{{.DB_PASSWORD}}@{{.DB_HOST}}:{{.DB_PORT}}/{{.DB_NAME}}?sslmode=disable"
+  MIGRATIONS_DIR: "migrations"
+
+tasks:
+  migrate:up:
+    desc: Rull all pending migrations
+    cmds:
+      - goose -dir {{.MIGRATIONS_DIR}} postgres "{{.DB_URL}}" up
+  
+  migrate:down:
+    desc: Rollback last migrations
+    cmds:
+      - goose -dir {{.MIGRATIONS_DIR}} postgres "{{.DB_URL}}" down
+  
+  migrate:status:
+    desc: Show migration status
+    cmds:
+      - goose -dir {{.MIGRATIONS_DIR}} postgres "{{.DB_URL}}" status
+
+  migrate:create:
+    desc: Create new migration
+    cmds:
+      - goose -dir {{.MIGRATIONS_DIR}} create "{{.name}}" sql
+    requires:
+      vars: [name]
+
+  migrate:reset:
+    desc: Drop all tables and re-run migrations
+    cmds:
+      - goose -dir {{.MIGRATIONS_DIR}} postgres "{{.DB_URL}}" reset
