@@ -1,14 +1,20 @@
 package controllers
 
-import "go-auth/repositories"
+import (
+	"go-auth/repositories"
+
+	"golang.org/x/oauth2"
+)
 
 type APIServer struct {
-	storage repositories.Storage
+	storage           repositories.Storage
+	googleOAuthConfig *oauth2.Config
 }
 
-func NewAPIServer(storage repositories.Storage) *APIServer {
+func NewAPIServer(storage repositories.Storage, auth *oauth2.Config) *APIServer {
 	return &APIServer{
-		storage: storage,
+		storage:           storage,
+		googleOAuthConfig: auth,
 	}
 }
 
