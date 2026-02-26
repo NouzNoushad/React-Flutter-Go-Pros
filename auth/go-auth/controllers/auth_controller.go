@@ -578,7 +578,7 @@ func (s *APIServer) HandleGoogleCallback(c *gin.Context) {
 	}
 
 	// create token
-	accessToken, refreshToken, err := s.createTokens(user)
+	accessToken, _, err := s.createTokens(user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, ErrorResponse{
 			Status:  Failed,
@@ -589,11 +589,13 @@ func (s *APIServer) HandleGoogleCallback(c *gin.Context) {
 	// set cookie
 	c.SetCookie("token", accessToken, (60 * 60 * 24 * 7), "/", "", true, true)
 
-	c.JSON(http.StatusOK, AuthResponse{
-		Status:       Success,
-		Message:      "Login Success",
-		AccessToken:  accessToken,
-		RefreshToken: refreshToken})
+	// c.JSON(http.StatusOK, AuthResponse{
+	// 	Status:       Success,
+	// 	Message:      "Login Success",
+	// 	AccessToken:  accessToken,
+	// 	RefreshToken: refreshToken})
+
+	c.Redirect(http.StatusFound, "http://localhost:5173/")
 }
 
 // logout

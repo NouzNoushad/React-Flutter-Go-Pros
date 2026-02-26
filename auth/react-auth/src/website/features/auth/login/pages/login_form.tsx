@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import AuthFormButton from '../../../../../components/auth_form_button'
 import { LoginFormValidation, type LoginSchemaType } from '../actions/Validation'
 import { LoginFormAction } from '../actions/loginFormAction'
+import GoogleButton from './google_button'
 
 export default function LoginForm() {
     const { handleLoginForm } = LoginFormAction()
@@ -25,6 +26,7 @@ export default function LoginForm() {
             <div className="flex flex-col items-center justify-center bg-primary-dark shadow-lg rounded-2xl px-6 py-5 w-full min-h-137.5">
                 <LoginInputFields register={register} errors={errors} />
                 <AuthFormButton label='Login' type='submit' />
+                <GoogleButton />
             </div>
         </form>
     )
